@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.awt.Rectangle;
 
-public class SDOGeometry implements GlobalConst
-{
+public class SDOGeometry {
 
 	public SDOGeomType shapeType;
 	public double[] coords;

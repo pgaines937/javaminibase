@@ -16,9 +16,9 @@ import java.util.Vector;
     public static final String tablename = "ShapesTable";
     public int shapeId;
     public String shapeName;
-    public Sdo_geometry shape;
+    public SDOGeometry shape;
 
-    public ShapesTable(int _shapeId, String _shapeName, Sdo_geometry _shape) {
+    public ShapesTable(int _shapeId, String _shapeName, SDOGeometry _shape) {
         this.shapeId = _shapeId;
         this.shapeName = _shapeName;
         this.shape = _shape;
@@ -86,11 +86,11 @@ class Test2Driver extends TestDriver implements GlobalConst
         
         double[] vertices1 = new double[] {1.0, 1.0, 2.0, 3.0};
 
-        shapesTable.addElement(new ShapesTable(1, "Rectangle", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices1)));
+        shapesTable.addElement(new ShapesTable(1, "Rectangle", new SDOGeometry(SDOGeomType.RECTANGLE, vertices1)));
 
         double[] vertices2 = new double[] {2.5, 3.5, 3.5, 4.5};
 
-        shapesTable.addElement(new ShapesTable(2, "Rectangle", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices2)));
+        shapesTable.addElement(new ShapesTable(2, "Rectangle", new SDOGeometry(SDOGeomType.RECTANGLE, vertices2)));
         
         //finished inserting two entries for shapes table
 		
