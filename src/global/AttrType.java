@@ -12,7 +12,10 @@ public class AttrType {
   public static final int attrReal    = 2;
   public static final int attrSymbol  = 3;
   public static final int attrNull    = 4;
-  
+  //new addition
+  public static final int attrSdoGeometry = 5;
+  public static final int attrRealNoArray = 6;
+  //new addition
   public int attrType;
 
   /** 
@@ -47,6 +50,12 @@ public class AttrType {
       return "attrSymbol";
     case attrNull:
       return "attrNull";
+      //new addition
+    case attrSdoGeometry:
+    	return "attrSdoGeometry";
+    case attrRealNoArray:
+    	return "attrRealNoArray";
+    	//new addition
     }
     return ("Unexpected AttrType " + attrType);
   }

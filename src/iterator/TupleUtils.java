@@ -42,6 +42,9 @@ public class TupleUtils
       int   t1_i,  t2_i;
       float t1_r,  t2_r;
       String t1_s, t2_s;
+      //new addition
+      Sdo_geometry s1_g, s2_g;
+      //new addition
       
       switch (fldType.attrType) 
 	{
@@ -79,6 +82,18 @@ public class TupleUtils
 	  if(t1_s.compareTo( t2_s)>0)return 1;
 	  if (t1_s.compareTo( t2_s)<0)return -1;
 	  return 0;
+	  
+	  //new addition
+	case AttrType.attrSdoGeometry:
+		try {
+			s1_g = t1.getSdoGeometryFld(t1_fld_no);
+			s2_g = t2.getSdoGeometryFld(t1_fld_no);
+		} catch (FieldNumberOutOfBoundException e) {
+			throw new TupleUtilsException(e,"FieldNumberOutOfBoundException is caught by TupleUtils.java");
+		}
+		if (s1_g.equals(s2_g)) return 0;
+		//new addition
+	
 	default:
 	  
 	  throw new UnknowAttrType(null, "Don't know how to handle attrSymbol, attrNull");
@@ -198,6 +213,15 @@ public class TupleUtils
 	    throw new TupleUtilsException(e, "FieldNumberOutOfBoundException is caught by TupleUtils.java");
 	  }
 	  break;
+	  //new addition
+	case AttrType.attrSdoGeometry:
+		try {
+			value.setSdoGeometryFld(fld_no, tuple.getSdoGeometryFld(fld_no));
+		} catch (FieldNumberOutOfBoundException e) {
+			throw new TupleUtilsException (e, "FieldNumberOutOfBoundException is caught by TupleUtils.java");
+		}
+		break;
+		//new addition
 	default:
 	  throw new UnknowAttrType(null, "Don't know how to handle attrSymbol, attrNull");
 	  

@@ -52,6 +52,12 @@ public class Projection
 		case AttrType.attrString:
 		  Jtuple.setStrFld(i+1, t1.getStrFld(perm_mat[i].offset));
 		  break;
+		  
+		  //new addition
+		case AttrType.attrSdoGeometry:
+			Jtuple.setSdoGeometryFld(i+1,t1.getSdoGeometryFld(perm_mat[i].offset));
+			break;
+			//new addition
 		default:
 		  
 		  throw new UnknowAttrType("Don't know how to handle attrSymbol, attrNull");
@@ -71,6 +77,11 @@ public class Projection
 		case AttrType.attrString:
 		  Jtuple.setStrFld(i+1, t2.getStrFld(perm_mat[i].offset));
 		  break;
+		  //new addition
+		case AttrType.attrSdoGeometry:
+			Jtuple.setSdoGeometryFld(i+1, t2.getSdoGeometryFld(perm_mat[i].offset)); //not sure if it should be t1 or t2
+			break;
+			//new addition
 		default:
 		  
 		  throw new UnknowAttrType("Don't know how to handle attrSymbol, attrNull");  
@@ -127,6 +138,11 @@ public class Projection
 		case AttrType.attrString:
 		  Jtuple.setStrFld(i+1, t1.getStrFld(perm_mat[i].offset));
 		  break;
+		  //new addition
+		case AttrType.attrSdoGeometry:
+			Jtuple.setSdoGeometryFld(i+1, t1.getSdoGeometryFld(perm_mat[i].offset));
+			break;
+			//new addition
 		default:
 		  
 		  throw new UnknowAttrType("Don't know how to handle attrSymbol, attrNull"); 

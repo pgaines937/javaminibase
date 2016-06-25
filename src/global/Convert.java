@@ -152,6 +152,71 @@ public class Convert{
       return value;
     }
   
+  //new addition
+  public static Sdo_geometry getSdoGeometryValue (int position, byte[] data, int length) throws java.io.IOException
+  {
+	  InputStream in;
+	  DataInputStream instr;
+	  byte temp[] = new byte [length];
+	  
+	  // copy the value from data array out to a temp byte array
+	  System.arraycopy(data, position, temp, 0, length);
+	  
+	  /* creates a new data input stream to read data from the
+       * specified input stream
+       */
+	  
+	  in = new ByteArrayInputStream (temp);
+	  instr = new DataInputStream (in);
+	  short sh = instr.readShort();
+	  double x1, x2;
+	  double y1, y2;
+	  x1 = instr.readDouble();
+	  y1 = instr.readDouble();
+	  x2 = instr.readDouble();
+	  y2 = instr.readDouble();
+	  double [] array = new double [4];
+	  array[0] = x1;
+	  array[1] = y1;
+	  array[2] = x2;
+	  array[3] = y2;
+	  Sdo_geometry value = new Sdo_geometry (GlobalConst.Sdo_gtype.RECTANGLE, array);
+	  
+	  return value;
+  }
+  
+  public static Sdo_geometry getSdoGeometryValue (int position, byte[] data) throws java.io.IOException
+  {
+	  InputStream in;
+	  DataInputStream instr;
+	  byte temp[] = new byte [50];
+	// copy the value from data array out to a temp byte array
+	  System.arraycopy(data, position, temp, 0, 50);
+	  /* creates a new data input stream to read data from the
+       * specified input stream
+       */
+	  in = new ByteArrayInputStream (temp);
+	  instr = new DataInputStream (in);
+	  short sh = instr.readShort();
+	  double x1, x2;
+	  double y1, y2;
+	  x1 = instr.readDouble();
+	  y1 = instr.readDouble();
+	  x2 = instr.readDouble();
+	  y2 = instr.readDouble();
+	  double [] array = new double [4];
+	  array[0] = x1;
+	  array[1] = y1;
+	  array[2] = x2;
+	  array[3] = y2;
+	  Sdo_geometry value = new Sdo_geometry (GlobalConst.Sdo_gtype.RECTANGLE, array);
+	  
+	  return value;
+  }
+  
+  
+  //new addition
+  
   
   /**
    * update an integer value in the given byte array at the specified position
@@ -302,4 +367,47 @@ public class Convert{
       System.arraycopy (B, 0, data, position, 2);
       
     }
+  
+  //new addition
+  public static void setSdoGeometryValue (Sdo_geometry value, int position, byte[] data) throws java.io.IOException
+  {
+	  /* creates a new data output stream to write data to
+       * underlying output stream
+       */
+	  OutputStream os = new ByteArrayOutputStream ();
+	  DataOutputStream outstr = new DataOutputStream (os);
+	// write the value to the output stream
+	  outstr.writeShort((short)value.shapeType.ordinal());
+	  
+	  for (double d: value .coordinatesOfShape)
+		  outstr.writeDouble(d);
+	  
+	  // creates a byte array with this output stream size and the
+	// valid contents of the buffer have been copied into it
+	  byte[] byteArray = ((ByteArrayOutputStream) os).toByteArray();
+      int size = outstr.size();
+      // copies the first sz bytes of this byte array into data[]
+      System.arraycopy(byteArray, 0, data, position, size);
+      }
+  
+  public static void setRealArrayValue (double [] value, int position, byte[] data) throws java.io.IOException
+  {
+	  /* creates a new data output stream to write data to
+       * underlying output stream
+       */
+	  OutputStream out = new ByteArrayOutputStream ();
+	  DataOutputStream outstr = new DataOutputStream (out);
+	// write the value to the output stream
+	  for (double d: value)
+		  outstr.writeDouble(d);
+	  
+	  // creates a byte array with this output stream size and the
+	// valid contents of the buffer have been copied into it
+	  byte[] byteArray = ((ByteArrayOutputStream) out).toByteArray();
+      int size = outstr.size();
+      // copies the first sz bytes of this byte array into data[]
+      System.arraycopy(byteArray, 0, data, position, size);
+  }
+  
+  //new addition
 }

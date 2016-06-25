@@ -275,6 +275,21 @@ public class Tuple implements GlobalConst{
        throw new FieldNumberOutOfBoundException (null, "TUPLE:TUPLE_FLDNO_OUT_OF_BOUND");
  
     }
+   
+   //new addition
+   public Sdo_geometry getSdoGeometryFld(int fldNo)
+           throws IOException, FieldNumberOutOfBoundException
+   {
+       Sdo_geometry val;
+       if ( (fldNo > 0) && (fldNo <= fldCnt))
+       {
+           val = Convert.getSdoGeometryValue(fldOffset[fldNo - 1], data);
+           return val;
+       }
+       else
+           throw new FieldNumberOutOfBoundException (null, "TUPLE:TUPLE_FLDNO_OUT_OF_BOUND");
+}
+   //new addition
 
   /**
    * Set this field to integer value
@@ -339,6 +354,32 @@ public class Tuple implements GlobalConst{
      else 
        throw new FieldNumberOutOfBoundException (null, "TUPLE:TUPLE_FLDNO_OUT_OF_BOUND");
     }
+   
+   //new addition
+   public Tuple setSdoGeometryFld(int fldNo, Sdo_geometry val)
+           throws IOException, FieldNumberOutOfBoundException
+   {
+       if ( (fldNo > 0) && (fldNo <= fldCnt))
+       {
+           Convert.setSdoGeometryValue(val, fldOffset[fldNo - 1], data);
+           return this;
+       }
+       else
+           throw new FieldNumberOutOfBoundException (null, "TUPLE:TUPLE_FLDNO_OUT_OF_BOUND");
+}
+   
+   public Tuple setRealArrayFld(int fldNo, double[] val)
+           throws IOException, FieldNumberOutOfBoundException
+   {
+       if ( (fldNo > 0) && (fldNo <= fldCnt))
+       {
+           Convert.setRealArrayValue(val, fldOffset[fldNo - 1], data);
+           return this;
+       }
+       else
+           throw new FieldNumberOutOfBoundException (null, "TUPLE:TUPLE_FLDNO_OUT_OF_BOUND");
+}
+   //new addition
 
 
    /**
@@ -392,6 +433,13 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
      strCount++;
      break;       
  
+   case AttrType.attrSdoGeometry:
+	   incr = 50;
+	   break;
+	   
+   case AttrType.attrRealNoArray:
+	   incr = 50;
+	   break;
    default:
     throw new InvalidTypeException (null, "TUPLE: TUPLE_TYPE_ERROR");
    }
@@ -414,6 +462,13 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
      incr =(short) ( strSizes[strCount] +2);  //strlen in bytes = strlen +2
      break;
 
+   case AttrType.attrSdoGeometry:
+	   incr = 50;
+	   break;
+	   
+   case AttrType.attrRealNoArray:
+	   incr = 50;
+	   break;
    default:
     throw new InvalidTypeException (null, "TUPLE: TUPLE_TYPE_ERROR");
    }
@@ -468,6 +523,9 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
   int i, val;
   float fval;
   String sval;
+  //new addition
+  Sdo_geometry sdoval;
+  //new addition
 
   System.out.print("[");
   for (i=0; i< fldCnt-1; i++)
@@ -488,6 +546,15 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
      sval = Convert.getStrValue(fldOffset[i], data,fldOffset[i+1] - fldOffset[i]);
      System.out.print(sval);
      break;
+    
+   //new addition 
+   case AttrType.attrSdoGeometry:
+       sdoval = Convert.getSdoGeometryValue(fldOffset[i], data, fldOffset[i+1] - fldOffset[i]);
+       String output = "SDO_GEOMETRY(" + (int) sdoval.shapeType.ordinal() +",[ ";
+       for(double d: sdoval.coordinatesOfShape)
+           output += d + " ";
+       System.out.print(output + "])");
+   //new addition
   
    case AttrType.attrNull:
    case AttrType.attrSymbol:
@@ -512,6 +579,16 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
      sval = Convert.getStrValue(fldOffset[i], data,fldOffset[i+1] - fldOffset[i]);
      System.out.print(sval);
      break;
+     
+     //new addition
+   case AttrType.attrSdoGeometry:
+       sdoval = Convert.getSdoGeometryValue(fldOffset[i], data, fldOffset[i+1] - fldOffset[i]);
+       String output = "SDO_GEOMETRY(" + (int) sdoval.shapeType.ordinal() +",[ ";
+       for(double d: sdoval.coordinatesOfShape)
+           output += d + " ";
+       System.out.print(output + "])");
+       break;
+       //new addition
 
    case AttrType.attrNull:
    case AttrType.attrSymbol:
