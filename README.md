@@ -1,1 +1,1 @@
-javaminibase
+This is javaminibase.
