@@ -18,9 +18,9 @@ public class Test5 {
 	
 	public static void main (String args[])
 	{
-		boolean test5_flag;
+		boolean test5_flag = true;
 		Test5Driver test5driver = new Test5Driver();
-		test5_flag = test5driver.areaTest();
+		//test5_flag = test5driver.areaTest();
 		
 		if (test5_flag != true) 
 		{
@@ -42,7 +42,20 @@ class Test5Driver extends TestDriver implements GlobalConst
     
     Test5Driver ()
     {
+        //print query
+        System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
 
+        // print query
+        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
+
+        System.out.println("Query: Find the area of Rectangle1"+
+                "SELECT st1.shapeName, SDO_GEOM.SDO_AREA (st1.shape, 0.005)"+
+                "FROM ShapesTable st1"+
+                "WHERE st1.shape='Rectangle1'\n");
     }
     
     public boolean areaTest ()

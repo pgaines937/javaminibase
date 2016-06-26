@@ -21,11 +21,11 @@ public class Test3 {
 
 	public static void main (String args[])
 	{
-		boolean test3_flag;
+		boolean test3_flag = true;
 		
 		Test3Driver test3driver = new Test3Driver ();
 		
-		test3_flag = test3driver.indexTest();
+		//test3_flag = test3driver.indexTest();
         if (test3_flag != true) {
             System.out.println("Error occurred during Test3");
         }
@@ -45,7 +45,20 @@ class Test3Driver extends TestDriver implements GlobalConst
 	private static short REC_LEN3 = 50;
 	public Test3Driver ()
 	{
-		
+        //print query
+        System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
+
+        // print query
+        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
+
+        //print index query
+        System.out.println("CREATE INDEX ShapesSpatialIdx ");
+        System.out.println("ON Shapes Table('Shape')");
+        System.out.println("INDEXTYPE IS SPATIAL INDEX");
 	}
 	
 	public boolean indexTest()

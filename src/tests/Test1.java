@@ -25,22 +25,6 @@ class ShapesTable {
     }
 }
 
-class SdoGeoMetaData 
-{
-	public String tableName;
-    public String columnName;
-    public double[] xDim;
-    public double[] yDim;
-
-    public SdoGeoMetaData(String tableName, String columnName, double[] xDim, double[] yDim) 
-    {
-        this.tableName = tableName;
-        this.columnName = columnName;
-        this.xDim = xDim;
-        this.yDim = yDim;
-    }
-}
-
 
 public class Test1 {
 

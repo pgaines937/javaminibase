@@ -21,9 +21,9 @@ public class Test6 {
 	
 	public static void main (String args[])
 	{
-		boolean test6_flag;
+		boolean test6_flag = true;
 		Test6Driver test6driver = new Test6Driver();
-		test6_flag = test6driver.intersectionTest();
+		//test6_flag = test6driver.intersectionTest();
 		
 		if (test6_flag != true)
 		{
@@ -47,7 +47,21 @@ class Test6Driver extends TestDriver implements GlobalConst
     
 	Test6Driver ()
 	{
-		
+		//print query
+		System.out.println("CREATE TABLE ShapesTable");
+		System.out.println("shapesId NUMBER PRIMARY KEY");
+		System.out.println("name VARCHAR2(32)");
+		System.out.println("shape SDO_GEOMETRY)");
+
+		// print query
+		System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+		System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
+
+		System.out.println("Query: Find the intersection of Rectangle1 and Rectangle2"+
+				"SELECT SDO_GEOM.SDO_INTERSECTION (st1.shape, st2.shape 0.005)"+
+				"FROM ShapesTable st1, ShapesTable st2"+
+				"WHERE st1.shapeName = 'Rectangle1' AND st2.shapeName = 'Rectangle2'\n");
+
 	}
 	
 	public boolean intersectionTest ()

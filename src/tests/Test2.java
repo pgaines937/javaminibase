@@ -12,45 +12,32 @@ import iterator.*;
 import java.io.IOException;
 import java.util.Vector;
 
-/*class ShapesTable {
-    public static final String tablename = "ShapesTable";
-    public int shapeId;
-    public String shapeName;
-    public SDOGeometry shape;
 
-    public ShapesTable(int _shapeId, String _shapeName, SDOGeometry _shape) {
-        this.shapeId = _shapeId;
-        this.shapeName = _shapeName;
-        this.shape = _shape;
-    }
-}
-
-class SdoGeoMetaData 
-{
-	public String tableName;
+class SdoGeoMetaData {
+    public String tableName;
     public String columnName;
     public double[] xDim;
     public double[] yDim;
 
-    public SdoGeoMetaData(String tableName, String columnName, double[] xDim, double[] yDim) 
-    {
+    public SdoGeoMetaData(String tableName, String columnName, double[] xDim, double[] yDim) {
         this.tableName = tableName;
         this.columnName = columnName;
         this.xDim = xDim;
         this.yDim = yDim;
     }
-}*/
+}
+
 
 
 public class Test2 {
 
 	public static void main (String args[])
 	{
-		boolean test2_flag;
+		boolean test2_flag = true;
 		
 		Test2Driver test2driver = new Test2Driver ();
 		
-		test2_flag = test2driver.insertTest();
+		//test2_flag = test2driver.insertTest();
         if (test2_flag != true) {
             System.out.println("Error occurred during Test2");
         }
@@ -64,12 +51,20 @@ class Test2Driver extends TestDriver implements GlobalConst
 {
 	private boolean OK = true;
 	private boolean FAIL = false;
-	private Vector shapesTable;
+	private Vector<ShapesTable> shapesTable;
 	private SdoGeoMetaData sdoGeomMDTable;
 	
 	public Test2Driver()
 	{
-		
+        //print query
+        System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
+
+        // print query
+        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
 	}
 	
 	public boolean insertTest()
@@ -86,11 +81,11 @@ class Test2Driver extends TestDriver implements GlobalConst
         
         double[] vertices1 = new double[] {1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0};
 
-        shapesTable.addElement(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
+        //shapesTable.addElement(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
         double[] vertices2 = new double[] {2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5};
 
-        shapesTable.addElement(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices2)));
+        // shapesTable.addElement(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices2)));
         
         //finished inserting two entries for shapes table
 		
@@ -163,23 +158,11 @@ class Test2Driver extends TestDriver implements GlobalConst
           status = FAIL;
           e.printStackTrace();
         }
-        
-        
-        t = new Tuple(size);
-        try 
-        {
-          t.setHdr((short) 3, STtypes, STsizes);
-        }
-        catch (Exception e) 
-        {
-          System.err.println("*** error in Tuple.setHdr() ***");
-          status = FAIL;
-          e.printStackTrace();
-        }
+
         
         //actual inserting
         
-        for (int i=0; i<num_shapes_table; i++) 
+        /*for (int i=0; i<num_shapes_table; i++)
         {
             try 
             {
@@ -194,7 +177,7 @@ class Test2Driver extends TestDriver implements GlobalConst
             	status = FAIL;
             	e.printStackTrace();
             }
-            
+
           //actual inserting to table finished
             
          //write each record to the heap file
@@ -209,7 +192,7 @@ class Test2Driver extends TestDriver implements GlobalConst
             	e.printStackTrace();
             }      
          }
-        
+        */
         //creating and inserting into sdometadata table
         dbpath = "/tmp/" + System.getProperty("user.name") + ".minibase.sdogeommetadb";
         logpath = "/tmp/" + System.getProperty("user.name") + ".sdogeommetalog";
