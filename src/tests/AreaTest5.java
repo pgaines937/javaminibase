@@ -1,45 +1,48 @@
 package tests;
-
 import btree.BTreeFile;
 import btree.IntegerKey;
 import global.*;
+import global.GlobalConst.Sdo_gtype;
 import heap.Heapfile;
 import heap.Scan;
 import heap.Tuple;
 import index.IndexScan;
 import iterator.*;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Vector;
 
-public class DistanceTest4 {
 
+public class AreaTest5 {
+	
 	public static void main (String args[])
 	{
-		boolean test4_flag;
-		Test4Driver test4driver = new Test4Driver();
-		test4_flag = test4driver.distanceTest();
-
-		if (test4_flag != true) 
+		boolean test5_flag;
+		Test5Driver test5driver = new Test5Driver();
+		test5_flag = test5driver.areaTest();
+		
+		if (test5_flag != true) 
 		{
-			System.out.println("Error ocurred during Test 4");
-		}
-		else 
-		{
-			System.out.println("Distance Test 4 completed successfully");
-		}
+            System.out.println("Error ocurred Area Test 5");
+        }
+        else 
+        {
+            System.out.println("Area test 5 completed successfully");
+        }
 	}
+
 }
 
-class Test4Driver extends TestDriver implements GlobalConst
+class Test5Driver extends TestDriver implements GlobalConst
 {
 	private boolean OK = true;
     private boolean FAIL = false;
     private Vector shapesTable;
     
-    Test4Driver ()
+    Test5Driver ()
     {
-    	System.out.print("Started Test 4- Distance Test" + "\n");
+    	System.out.print("Started Test 5- Area Test" + "\n");
 
         //build shapesTable table
         shapesTable = new Vector();
@@ -57,8 +60,8 @@ class Test4Driver extends TestDriver implements GlobalConst
 		int num_sdo_geom_attributes = 4;
 		int num_sdo_geom = 1;
         
-        String dbpath = "/tmp/" + System.getProperty("user.name") + ".minibase.Test4db";
-        String logpath = "/tmp/" + System.getProperty("user.name") + ".test4log";
+        String dbpath = "/tmp/" + System.getProperty("user.name") + ".minibase.Test5db";
+        String logpath = "/tmp/" + System.getProperty("user.name") + ".test5log";
 
         String remove_cmd = "/bin/rm -rf ";
         String remove_logcmd = remove_cmd + logpath;
@@ -78,7 +81,7 @@ class Test4Driver extends TestDriver implements GlobalConst
         
         SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
 
-        // creating the ShapesTable relation
+        // creating the shapesTable relation
         AttrType[] STtypes = new AttrType[3];
         STtypes[0] = new AttrType(AttrType.attrInteger);
         STtypes[1] = new AttrType(AttrType.attrString);
@@ -165,59 +168,58 @@ class Test4Driver extends TestDriver implements GlobalConst
         }
     }
     
-    public boolean distanceTest ()
+    public boolean areaTest ()
     {
-    	DistanceQuery();       
-    	System.out.println("Finished Distance Test 4");
+    	AreaQuery();
+    	System.out.println("Finished Area Test5");
     	return true;
     }
     
-    public void DistanceQuery ()
+    public void AreaQuery ()
     {
     	System.out.println("*****************************Query to execute*******************************");
     	boolean status = OK;
     	
-    	System.out.println("Query: Find the distance of Rectangle1 and Rectangle2"+
-    						"SELECT SDO_GEOM.SDO_DISTANCE (st1.shape, st2.shape, 0.005)"+
-    						"FROM ShapesTable st1, ShapesTable st2"+
-    						"WHERE st1.shape='Rectangle1' AND st2.shape='Rectangle2'\n");
+    	System.out.println("Query: Find the area of Rectangle1"+
+    						"SELECT st1.shapeName, SDO_GEOM.SDO_AREA (st1.shape, 0.005)"+
+    						"FROM ShapesTable st1"+
+    						"WHERE st1.shape='Rectangle1'\n");
     	
-    	CondExpr[] outFilter = new CondExpr[3];
+    	CondExpr[] outFilter = new CondExpr[2];
         outFilter[0] = new CondExpr();
         outFilter[1] = new CondExpr();
-        outFilter[2] = new CondExpr();
-        
-        DistanceQuery_CondExpr(outFilter);
+
+        AreaQuery_CondExpr(outFilter);
 
         Tuple t = new Tuple();
         t = null;
-        
-        AttrType [] Mtypes = new AttrType[3];
-        Mtypes[0] = new AttrType (AttrType.attrInteger);
-        Mtypes[1] = new AttrType (AttrType.attrString);
-        Mtypes[2] = new AttrType (AttrType.attrSdoGeometry);
+
+        AttrType [] STtypes = new AttrType[3];
+        STtypes[0] = new AttrType (AttrType.attrInteger);
+        STtypes[1] = new AttrType (AttrType.attrString);
+        STtypes[2] = new AttrType (AttrType.attrSdoGeometry);
 
         //SOS
-        short [] Msizes = new short[1];
-        Msizes[0] = 30; //first elt. is 30
+        short [] STsizes = new short[1];
+        STsizes[0] = 30; //first elt. is 30
 
-        FldSpec [] Mprojection = new FldSpec[2];
-        Mprojection[0] = new FldSpec(new RelSpec(RelSpec.outer), 2);
-        Mprojection[1] = new FldSpec(new RelSpec(RelSpec.outer), 3);
+        FldSpec [] STprojection = new FldSpec[2];
+        STprojection[0] = new FldSpec(new RelSpec(RelSpec.outer), 2);
+        STprojection[1] = new FldSpec(new RelSpec(RelSpec.outer), 3);
 
         AttrType [] jtype = new AttrType[2];
         jtype[0] = new AttrType (AttrType.attrString);
         jtype[1] = new AttrType (AttrType.attrSdoGeometry);
-
+        
         CondExpr [] selects = new CondExpr [1];
         selects = null;
-        
+
         FileScan am = null;
         try 
         {
-            am  = new FileScan("ShapesTable.in", Mtypes, Msizes,
+            am  = new FileScan("ShapesTable.in", STtypes, STsizes,
                     (short)3, (short)2,
-                    Mprojection, null);
+                    STprojection, outFilter);
         }
         catch (Exception e) 
         {
@@ -232,33 +234,37 @@ class Test4Driver extends TestDriver implements GlobalConst
             System.err.println ("*** Error setting up scan for ShapesTable");
             Runtime.getRuntime().exit(1);
         }
-        System.out.println("done");
-        Sdo_geometry x[] = new Sdo_geometry[2];
         
+        System.out.println("done");
+        
+        double area;
         try 
         {
-            int i = 0;
+            System.out.println("shapeName, Area");
             while ((t = am.get_next()) != null) 
             {
-                t.print(jtype);
-                x[i++] = t.getSdoGeometryFld(2);	//2nd field is shape in t now
+                Sdo_geometry sdoval = t.getSdoGeometryFld(2);
+                
+                if (sdoval != null) 
+                {
+                    String output = "SDO_GEOMETRY(shapeType-" + (int) sdoval.shapeType.ordinal() + ",[ ";
+                    for (double d : sdoval.coordinatesOfShape)
+                        output += d + ",";
+                    System.out.println(output + "])");
+                }
+                area = sdoval.area();
+                System.out.println(t.getStrFld(1) + ", " + area);
             }
-            double distance = x[0].Distance(x[1]);
-            
-            if (distance > 0.0)
-            	System.out.println ("Distance is "+distance);
-            else 
-            	System.out.println ("Distance is 0");       
         }
         catch (Exception e) 
         {
             System.err.println (""+e);
             e.printStackTrace();
             Runtime.getRuntime().exit(1);
-        }
+        }        
     }
-        
-    public void DistanceQuery_CondExpr (CondExpr[]expr)
+    
+    public void AreaQuery_CondExpr (CondExpr[] expr)
     {
     	expr[0].next  = null;
         expr[0].op    = new AttrOperator(AttrOperator.aopEQ);
@@ -266,15 +272,7 @@ class Test4Driver extends TestDriver implements GlobalConst
         expr[0].type2 = new AttrType(AttrType.attrString);
         expr[0].operand1.symbol = new FldSpec (new RelSpec(RelSpec.outer), 2);
         expr[0].operand2.string = "Rectangle1";
-        
-        expr[1].next  = null;
-        expr[1].op    = new AttrOperator(AttrOperator.aopEQ);
-        expr[1].type1 = new AttrType(AttrType.attrSymbol);
-        expr[1].type2 = new AttrType(AttrType.attrString);
-        expr[1].operand1.symbol = new FldSpec (new RelSpec(RelSpec.outer), 2);
-        expr[1].operand2.string = "Rectangle2";
-        
-        expr[2] = null;
-    	
-    }   
+
+        expr[1] = null;
+    }
 }
