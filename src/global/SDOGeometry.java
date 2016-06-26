@@ -7,7 +7,7 @@ import java.util.Vector;
 import java.awt.Rectangle;
 
 public class SDOGeometry {
-
+	public enum SDOGeomType {RECTANGLE, TRIANGLE, CIRCLE, POLYGON};
 	public SDOGeomType shapeType;
 	public double[] coords;
 	
@@ -27,20 +27,15 @@ public class SDOGeometry {
 			 case RECTANGLE:
 				 double area = Math.abs((coords[2]-coords[0]) * (coords[5]-coords[1]));
 				 return area;
-				 break;
 			 case TRIANGLE:
 				 return area = Math.abs((coords[0]*(coords[3]-coords[5])) + (coords[2]*(coords[5]-coords[1])) + (coords[2]*(coords[5]-coords[1])));
-				 break;
 			 case CIRCLE:
 				 double radius = (coords[0] - coords[2]);
 				 return area = Math.abs((radius * radius * Math.PI));
-				 break;
 			 case POLYGON:
 				 return area = 0;
-				 break;
 			 default:
 				 return area = 0;
-				 break;
 		 }
 	 }
 	 

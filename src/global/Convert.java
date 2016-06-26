@@ -153,7 +153,7 @@ public class Convert{
     }
   
   //new addition
-  public static Sdo_geometry getSdoGeometryValue (int position, byte[] data, int length) throws java.io.IOException
+  public static SDOGeometry getSdoGeometryValue (int position, byte[] data, int length) throws java.io.IOException
   {
 	  InputStream in;
 	  DataInputStream instr;
@@ -180,12 +180,12 @@ public class Convert{
 	  array[1] = y1;
 	  array[2] = x2;
 	  array[3] = y2;
-	  Sdo_geometry value = new Sdo_geometry (GlobalConst.Sdo_gtype.RECTANGLE, array);
+	  SDOGeometry value = new SDOGeometry (SDOGeometry.SDOGeomType.RECTANGLE, array);
 	  
 	  return value;
   }
   
-  public static Sdo_geometry getSdoGeometryValue (int position, byte[] data) throws java.io.IOException
+  public static SDOGeometry getSdoGeometryValue (int position, byte[] data) throws java.io.IOException
   {
 	  InputStream in;
 	  DataInputStream instr;
@@ -209,7 +209,7 @@ public class Convert{
 	  array[1] = y1;
 	  array[2] = x2;
 	  array[3] = y2;
-	  Sdo_geometry value = new Sdo_geometry (GlobalConst.Sdo_gtype.RECTANGLE, array);
+	  SDOGeometry value = new SDOGeometry (SDOGeometry.SDOGeomType.RECTANGLE, array);
 	  
 	  return value;
   }
@@ -369,7 +369,7 @@ public class Convert{
     }
   
   //new addition
-  public static void setSdoGeometryValue (Sdo_geometry value, int position, byte[] data) throws java.io.IOException
+  public static void setSdoGeometryValue (SDOGeometry value, int position, byte[] data) throws java.io.IOException
   {
 	  /* creates a new data output stream to write data to
        * underlying output stream
@@ -379,7 +379,7 @@ public class Convert{
 	// write the value to the output stream
 	  outstr.writeShort((short)value.shapeType.ordinal());
 	  
-	  for (double d: value .coordinatesOfShape)
+	  for (double d: value .coords)
 		  outstr.writeDouble(d);
 	  
 	  // creates a byte array with this output stream size and the
