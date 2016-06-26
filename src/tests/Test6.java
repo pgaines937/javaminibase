@@ -3,13 +3,13 @@ package tests;
 import java.io.IOException;
 import java.util.Vector;
 
+import com.vividsolutions.jts.geom.Coordinate;
 import global.AttrOperator;
 import global.AttrType;
 import global.GlobalConst;
 import global.RID;
-import global.Sdo_geometry;
+import global.SDOGeometry;
 import global.SystemDefs;
-import global.GlobalConst.Sdo_gtype;
 import heap.Heapfile;
 import heap.Tuple;
 import iterator.CondExpr;
@@ -66,11 +66,11 @@ class Test6Driver extends TestDriver implements GlobalConst
         shapesTable = new Vector();
 
         double[] vertices1 = new double[] {1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0};
-        shapesTable.addElement(new ShapesTable(1, "Rectangle1", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices1)));
+        shapesTable.addElement(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
         vertices1 = new double[] {2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5};
 
-        shapesTable.addElement(new ShapesTable(2, "Rectangle2", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices1)));
+        shapesTable.addElement(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
         
         boolean status = OK;
         int num_shapes_table_attributes = 3;
@@ -98,8 +98,14 @@ class Test6Driver extends TestDriver implements GlobalConst
 	        }
 	        
 	        SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
-	        
-	     // creating the shapesTable relation
+
+		//print query
+		System.out.println("CREATE TABLE ShapesTable");
+		System.out.println("shapesId NUMBER PRIMARY KEY");
+		System.out.println("name VARCHAR2(32)");
+		System.out.println("shape SDO_GEOMETRY)");
+
+		// creating the shapesTable relation
 	        AttrType[] STtypes = new AttrType[3];
 	        STtypes[0] = new AttrType(AttrType.attrInteger);
 	        STtypes[1] = new AttrType(AttrType.attrString);
@@ -124,7 +130,11 @@ class Test6Driver extends TestDriver implements GlobalConst
 	        int size = t.size();
 	        System.out.println("Size:" + size);
 
-	        // selecting the tuple into file "ShapesTable"
+		// print query
+		System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+		System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
+
+		// selecting the tuple into file "ShapesTable"
 	        RID rid;
 	        Heapfile f = null;
 	        try 
@@ -249,7 +259,7 @@ class Test6Driver extends TestDriver implements GlobalConst
         
         System.out.println("done");
         
-        Sdo_geometry xy[] = new Sdo_geometry[2];
+        SDOGeometry xy[] = new SDOGeometry[2];
         int i=0;
         try
         {
@@ -259,13 +269,13 @@ class Test6Driver extends TestDriver implements GlobalConst
         		xy[i++] = t.getSdoGeometryFld(2);
         	}
         	
-        	Sdo_geometry sdoShape = xy[0].intersection(xy[1]);
+        	Coordinate[] points = xy[0].intersection(xy[1]);
         	
-        	if (sdoShape != null) 
+        	if (points != null)
             {
-                String output = "SDO_GEOMETRY(shapeType- "+(int) sdoShape.shapeType.ordinal() + ", SDO_ORDINATE_ARRAY[ ";
-                for (double d : sdoShape.coordinatesOfShape)
-                    output += d + ",";
+                String output = "SDO_GEOMETRY(shapeType- "+(int) xy[0].shapeType.ordinal() + " intersects "+(int) xy[0].shapeType.ordinal() + ", SDO_ORDINATE_ARRAY[ ";
+                for (Coordinate point : points)
+                    output += point.toString() + ",";
                 System.out.println(output + "])");
             }       	
         }

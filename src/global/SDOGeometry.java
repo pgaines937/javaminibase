@@ -1,10 +1,7 @@
 package global;
 
-//import java.awt.geom.Rectangle2D;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Vector;
-import java.awt.Rectangle;
+import com.vividsolutions.jts.geom.*;
+import com.vividsolutions.jts.util.GeometricShapeFactory;
 
 public class SDOGeometry {
 	public enum SDOGeomType {RECTANGLE, TRIANGLE, CIRCLE, POLYGON};
@@ -25,7 +22,8 @@ public class SDOGeometry {
          where the first specifies the type of shape we have, and
          the rest are our coordinates necessary for defining the shape */
 	 public SDOGeometry(double[] inputArray){
-		 this.shapeType = (int) inputArray[0];
+		 int temp = (int) inputArray[0];
+		 this.shapeType = SDOGeometry.SDOGeomType.values()[temp];
 		 
 		 int lastCoordinate;	//Determines where the last coordinate value is in the array
 		 
@@ -64,7 +62,7 @@ public class SDOGeometry {
     //Take the geometry shape and converts it into an array of doubles
 	 public double[] convertToDoubleArray(){
 		 double[] output = new double[9];	//new array of the maximum possible length needed
-		 output[0] = (double)shapeType;		//the first element of the array indicates type
+		 output[0] = shapeType.ordinal();		//the first element of the array indicates type
 		 for(int i=0; i<coords.length; i++){	//the rest is a copy of our coordinate array
 			output[i+1] = coords[i];
 		 }
@@ -194,15 +192,99 @@ public class SDOGeometry {
 			
 	    }
 	 
-	 private double dist(double x1, double y1, double x2, double y2) 
+	 private double dist(double x1, double y1, double x2, double y2)
 	 {
 		 double dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 		 return dist;
 	 }
 	 
-	 public SDOGeometry intersection (SDOGeometry X)
+	 public Coordinate[] intersection (SDOGeometry X)
 	 {
-		 return null;
+		 double tempArray [] = this.convertToDoubleArray(); // need to get rid of the first element, and the positive infinities
+		 int iterator = 1;
+		 int iterator2 = 0;
+		 double radius = 0;
+		 double height = 0;
+		 double width = 0;
+		 double centerX = 0;
+		 double centerY = 0;
+		 Geometry shape1 = null;
+		 Geometry shape2 = null;
+		 GeometricShapeFactory gsf = new GeometricShapeFactory();
+		 GeometryFactory fact = new GeometryFactory();
+		 
+		 // Convert current object to JTS Geometry object
+		 SDOGeometry.SDOGeomType tempShapeType = SDOGeometry.SDOGeomType.values()[(int) tempArray[0]];
+		 switch (tempShapeType) { // shapeType
+			 case RECTANGLE:	//This is rectangle, other is rectangle
+				 width = tempArray[1] - tempArray[3];
+				 height = tempArray[5] - tempArray[1];
+				 centerX = width / 2;
+				 centerY = height / 2;
+				 gsf.setWidth(width);
+				 gsf.setHeight(height);
+				 gsf.setNumPoints(4);
+				 gsf.setBase(new Coordinate(centerX,centerY));
+				 shape1 = gsf.createRectangle();
+				 break;
+			 case TRIANGLE:	//This is rectangle, other is triangle
+				 Coordinate[] p = new Coordinate[] { new Coordinate(tempArray[1], tempArray[2]), 
+						 new Coordinate(tempArray[3], tempArray[4]), new Coordinate(tempArray[5], tempArray[6]) };
+				 shape1 = fact.createPolygon(p);
+				 break;
+			 case CIRCLE:	//This is rectangle, other is circle
+				 radius = tempArray[1] - tempArray[3];
+				 centerX = tempArray[1];
+				 centerY = tempArray[2];
+				 gsf.setSize(radius);
+				 gsf.setNumPoints(4);
+				 gsf.setBase(new Coordinate(centerX,centerY));
+				 shape1 = gsf.createCircle();
+				 break;
+			 case POLYGON:	//This is rectangle, other is Polygon
+				 break;
+			 default:
+				 break;
+		 }
+
+		 // Convert passed in Geometry object to JTS Geometry object
+		 SDOGeometry.SDOGeomType xShapeType = SDOGeometry.SDOGeomType.values()[(int) X.coords[0]];
+		 switch (xShapeType) { // shapeType
+			 case RECTANGLE:	//This is rectangle, other is rectangle
+				 width = X.coords[1] - X.coords[3];
+				 height = X.coords[5] - X.coords[1];
+				 centerX = width / 2;
+				 centerY = height / 2;
+				 gsf.setWidth(width);
+				 gsf.setHeight(height);
+				 gsf.setNumPoints(4);
+				 gsf.setBase(new Coordinate(centerX,centerY));
+				 shape2 = gsf.createRectangle();
+				 break;
+			 case TRIANGLE:	//This is rectangle, other is triangle
+				 Coordinate[] p = new Coordinate[] { new Coordinate(X.coords[1], X.coords[2]),
+						 new Coordinate(X.coords[3], X.coords[4]), new Coordinate(X.coords[5], X.coords[6]) };
+				 shape2 = fact.createPolygon(p);
+				 break;
+			 case CIRCLE:	//This is rectangle, other is circle
+				 radius = tempArray[1] - tempArray[3];
+				 centerX = tempArray[1];
+				 centerY = tempArray[2];
+				 gsf.setSize(radius);
+				 gsf.setNumPoints(4);
+				 gsf.setBase(new Coordinate(centerX,centerY));
+				 shape2 = gsf.createCircle();
+				 break;
+			 case POLYGON:	//This is rectangle, other is Polygon
+				 break;
+			 default:
+				 break;
+		 }
+
+		 Geometry newShape = shape1.intersection(shape2);
+		 Coordinate[] newCoordinates = newShape.getCoordinates();
+
+		 return newCoordinates;
 	 }
     
     	 /*Determines the distance between two rectangles
