@@ -277,10 +277,10 @@ public class Tuple implements GlobalConst{
     }
    
    //new addition
-   public Sdo_geometry getSdoGeometryFld(int fldNo)
+   public SDOGeometry getSdoGeometryFld(int fldNo)
            throws IOException, FieldNumberOutOfBoundException
    {
-       Sdo_geometry val;
+       SDOGeometry val;
        if ( (fldNo > 0) && (fldNo <= fldCnt))
        {
            val = Convert.getSdoGeometryValue(fldOffset[fldNo - 1], data);
@@ -356,7 +356,7 @@ public class Tuple implements GlobalConst{
     }
    
    //new addition
-   public Tuple setSdoGeometryFld(int fldNo, Sdo_geometry val)
+   public Tuple setSdoGeometryFld(int fldNo, SDOGeometry val)
            throws IOException, FieldNumberOutOfBoundException
    {
        if ( (fldNo > 0) && (fldNo <= fldCnt))
@@ -524,7 +524,7 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
   float fval;
   String sval;
   //new addition
-  Sdo_geometry sdoval;
+  SDOGeometry sdoval;
   //new addition
 
   System.out.print("[");
@@ -551,7 +551,7 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
    case AttrType.attrSdoGeometry:
        sdoval = Convert.getSdoGeometryValue(fldOffset[i], data, fldOffset[i+1] - fldOffset[i]);
        String output = "SDO_GEOMETRY(" + (int) sdoval.shapeType.ordinal() +",[ ";
-       for(double d: sdoval.coordinatesOfShape)
+       for(double d: sdoval.coords)
            output += d + " ";
        System.out.print(output + "])");
    //new addition
@@ -584,7 +584,7 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
    case AttrType.attrSdoGeometry:
        sdoval = Convert.getSdoGeometryValue(fldOffset[i], data, fldOffset[i+1] - fldOffset[i]);
        String output = "SDO_GEOMETRY(" + (int) sdoval.shapeType.ordinal() +",[ ";
-       for(double d: sdoval.coordinatesOfShape)
+       for(double d: sdoval.coords)
            output += d + " ";
        System.out.print(output + "])");
        break;
