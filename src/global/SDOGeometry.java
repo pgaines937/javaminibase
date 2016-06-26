@@ -96,7 +96,7 @@ public class SDOGeometry {
 	 //Determines the distance between this shape and another, returns the distance (-1 if error)
 	 public double Distance(SDOGeometry X)
 	 {
-	        double distance;
+	        double distance = 0;
 			
 			//Find out which distance method is required to be called
 			switch (this.shapeType) {
@@ -115,7 +115,7 @@ public class SDOGeometry {
 					case POLYGON:	//This is rectangle, other is Polygon
 						distance = rectanglePolygonDistance(this, X);
 						break;
-					default
+					default:
 						distance = -1;
 						break;
 				}
@@ -136,7 +136,7 @@ public class SDOGeometry {
 					case POLYGON:	//This is triangle, other is Polygon
 						distance = trianglePolygonDistance(this, X);
 						break;
-					default
+					default:
 						distance = -1;
 						break;
 				}				 
@@ -157,7 +157,7 @@ public class SDOGeometry {
 					case POLYGON:	//This is Circle, other is Polygon
 						distance = circlePolygonDistance(this, X);
 						break;
-					default
+					default:
 						distance = -1;					
 						break;
 				}				 
@@ -178,15 +178,15 @@ public class SDOGeometry {
 					case POLYGON:	//This is polygon, other is Polygon
 						distance = polygonPolygonDistance(this, X);
 						break;
-					default
+					default:
 					
 					
 						break;
 				}
 				 break;
 			//If the shapetype is out of bounds, return -1 as distance to signify error	 
-			 default
-				 mindistance = -1;
+				default:
+				 distance = -1;
 				 break;
 		 }
          
@@ -221,8 +221,8 @@ public class SDOGeometry {
 			 }//end inner for loop
 		 }//end outer for loop
 		 
-		 if(minDistance = Double.POSITIVE_INFINITY){ //Check for errors
-			 midDistance = -1;
+		 if(minDistance == Double.POSITIVE_INFINITY){ //Check for errors
+			 minDistance = -1;
 		 }
 		 
 		 return minDistance;
@@ -244,8 +244,8 @@ public class SDOGeometry {
 			 }//end inner for loop
 		 }//end outer for loop
 		 
-		 if(minDistance = Double.POSITIVE_INFINITY){ //Check for errors
-			 midDistance = -1;
+		 if(minDistance == Double.POSITIVE_INFINITY){ //Check for errors
+			 minDistance = -1;
 		 }
 		 
 		 return minDistance;
@@ -273,8 +273,8 @@ public class SDOGeometry {
 			 minDistance = 0;	//then the distance is actually 0;
 		 }
 		 
-		 if(minDistance = Double.POSITIVE_INFINITY){ //Check for errors
-			 midDistance = -1;
+		 if(minDistance == Double.POSITIVE_INFINITY){ //Check for errors
+			 minDistance = -1;
 		 }
 		 
 		 return minDistance;
@@ -296,8 +296,8 @@ public class SDOGeometry {
 			 }//end inner for loop
 		 }//end outer for loop
 		 
-		 if(minDistance = Double.POSITIVE_INFINITY){ //Check for errors
-			 midDistance = -1;
+		 if(minDistance == Double.POSITIVE_INFINITY){ //Check for errors
+			 minDistance = -1;
 		 }
 		 
 		 return minDistance;
@@ -326,8 +326,8 @@ public class SDOGeometry {
 			 minDistance = 0;	//then the distance is actually 0;
 		 }
 		 
-		 if(minDistance = Double.POSITIVE_INFINITY){ //Check for errors
-			 midDistance = -1;
+		 if(minDistance == Double.POSITIVE_INFINITY){ //Check for errors
+			 minDistance = -1;
 		 }
 		 
 		 return minDistance;
@@ -346,7 +346,7 @@ public class SDOGeometry {
 			 distance = 0;	//then the distance is actually 0;
 		 }
 		 
-		 if(distance = Double.POSITIVE_INFINITY){ //Check for errors
+		 if(distance == Double.POSITIVE_INFINITY){ //Check for errors
 			 distance = -1;
 		 }
 		 
