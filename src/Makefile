@@ -42,8 +42,8 @@ doc:
 	$(JAVADOC) $(DOCFILES)
 
 test: 
-	# cd tests; make bmtest dbtest; whoami; make hftest bttest indextest jointest sorttest sortmerge
-	cd tests; make Test1; make Test2; make Test3;
+	# cd tests; make bmtest dbtest; whoami; make hftest bttest indextest jointest sorttest sortmerge test1 test2 test3 test4 test5 test6
+	cd tests; make test1; make test2; make test3; make test4; make test5; make test6	
 
 clean:
 	\rm -f $(CLASSPATH)/*.class *~ \#* core $(JARFILES) TRACE

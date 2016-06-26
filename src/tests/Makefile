@@ -90,10 +90,25 @@ Test3:Test3.java
 	
 test3: Test3
 	$(JAVA) tests.Test3
+	
 # test 4
-
+Test4:Test4.java
+	$(JAVAC)  TestDriver.java Test4.java
+	
+test4: Test4
+	$(JAVA) tests.Test4
+	
 # test 5
-
+Test5:Test5.java
+	$(JAVAC)  TestDriver.java Test5.java
+	
+test5: Test5
+	$(JAVA) tests.Test5
+	
 # test 6
-
+Test6:Test6.java
+	$(JAVAC)  TestDriver.java Test6.java
+	
+test6: Test6
+	$(JAVA) tests.Test6
 
