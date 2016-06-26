@@ -16,9 +16,9 @@ class ShapesTable {
     public static final String tablename = "ShapesTable";
     public int shapeId;
     public String shapeName;
-    public Sdo_geometry shape;
+    public SDOGeometry shape;
 
-    public ShapesTable(int _shapeId, String _shapeName, Sdo_geometry _shape) {
+    public ShapesTable(int _shapeId, String _shapeName, SDOGeometry _shape) {
         this.shapeId = _shapeId;
         this.shapeName = _shapeName;
         this.shape = _shape;
@@ -52,7 +52,7 @@ public class Test1 {
 		
 		test1_flag = test1driver.createTest();
         if (test1_flag != true) {
-            System.out.println("Error ocurred during Test1");
+            System.out.println("Error occurred during Test1");
         }
         else {
             System.out.println("Test1 completed successfully");
@@ -100,7 +100,14 @@ class Test1Driver extends TestDriver implements GlobalConst
             System.err.println("" + e);
         }
         SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
-        
+
+        //print query
+        System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
+
+
         //create the ShapesTables
         AttrType[] STtypes = new AttrType[3];
         STtypes[0] = new AttrType(AttrType.attrInteger);

@@ -68,11 +68,11 @@ class Test3Driver extends TestDriver implements GlobalConst
         
         double[] vertices1 = new double[] {1.0, 1.0, 2.0, 3.0};
 
-        shapesTable.addElement(new ShapesTable(1, "Rectangle", new SDOGeometry(SDOGeomType.RECTANGLE, vertices1)));
+        shapesTable.addElement(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
         double[] vertices2 = new double[] {2.5, 3.5, 3.5, 4.5};
 
-        shapesTable.addElement(new ShapesTable(2, "Rectangle", new SDOGeometry(SDOGeomType.RECTANGLE, vertices2)));
+        shapesTable.addElement(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices2)));
         
         //finished inserting two entries for shapes table
 		
