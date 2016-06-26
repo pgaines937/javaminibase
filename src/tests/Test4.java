@@ -12,7 +12,7 @@ import iterator.*;
 import java.io.IOException;
 import java.util.Vector;
 
-public class DistanceTest4 {
+public class Test4 {
 
 	public static void main (String args[])
 	{
