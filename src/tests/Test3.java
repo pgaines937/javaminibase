@@ -7,7 +7,6 @@ import btree.StringKey;
 //import com.infomatiq.jsi.rtree.RTree;
 //import com.infomatiq.jsi.Rectangle;
 import global.*;
-import global.GlobalConst.Sdo_gtype;
 import heap.Heapfile;
 import heap.Scan;
 import heap.Tuple;
@@ -28,7 +27,7 @@ public class Test3 {
 		
 		test3_flag = test3driver.indexTest();
         if (test3_flag != true) {
-            System.out.println("Error ocurred during Test3");
+            System.out.println("Error occurred during Test3");
         }
         else {
             System.out.println("Test3- Index Test completed successfully");
@@ -69,11 +68,11 @@ class Test3Driver extends TestDriver implements GlobalConst
         
         double[] vertices1 = new double[] {1.0, 1.0, 2.0, 3.0};
 
-        shapesTable.addElement(new ShapesTable(1, "Rectangle", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices1)));
+        shapesTable.addElement(new ShapesTable(1, "Rectangle", new SDOGeometry(SDOGeomType.RECTANGLE, vertices1)));
 
         double[] vertices2 = new double[] {2.5, 3.5, 3.5, 4.5};
 
-        shapesTable.addElement(new ShapesTable(2, "Rectangle", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices2)));
+        shapesTable.addElement(new ShapesTable(2, "Rectangle", new SDOGeometry(SDOGeomType.RECTANGLE, vertices2)));
         
         //finished inserting two entries for shapes table
 		
