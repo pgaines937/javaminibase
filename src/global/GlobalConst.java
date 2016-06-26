@@ -30,9 +30,4 @@ public interface GlobalConst {
   public static final int MAX_NAME = 50;
 
   public static final int INVALID_PAGE = -1;
-
-  //new addition
-//enumeration for various shapes
-  public enum SDOGeomType {RECTANGLE, TRIANGLE, CIRCLE, POLYGON}
-//new addition
 }
