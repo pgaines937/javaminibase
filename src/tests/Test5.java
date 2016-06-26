@@ -42,6 +42,20 @@ class Test5Driver extends TestDriver implements GlobalConst
     
     Test5Driver ()
     {
+    	
+    }
+    
+    public boolean areaTest ()
+    {
+    	Initialize();
+    	AreaQuery();
+    	System.out.println("Finished Area Test5");
+    	return true;
+    }
+    
+    public void Initialize ()
+    {
+    	System.out.print("Started Test 5- Area Test" + "\n");
 
     }
     
@@ -201,7 +215,7 @@ class Test5Driver extends TestDriver implements GlobalConst
     	System.out.println("Query: Find the area of Rectangle1"+
     						"SELECT st1.shapeName, SDO_GEOM.SDO_AREA (st1.shape, 0.005)"+
     						"FROM ShapesTable st1"+
-    						"WHERE st1.shape='Rectangle1'\n");
+    						"WHERE st1.shapeName = 'Rectangle1'\n");
     	
     	CondExpr[] outFilter = new CondExpr[2];
         outFilter[0] = new CondExpr();
@@ -263,14 +277,14 @@ class Test5Driver extends TestDriver implements GlobalConst
             {
                 SDOGeometry sdoval = t.getSdoGeometryFld(2);
                 
-                if (sdoval != null) 
+                if (sdoShape != null) 
                 {
                     String output = "SDOGeometry(shapeType-" + (int) sdoval.shapeType.ordinal() + ",[ ";
                     for (double d : sdoval.coords)
                         output += d + ",";
                     System.out.println(output + "])");
                 }
-                area = sdoval.area();
+                area = sdoShape.area();
                 System.out.println(t.getStrFld(1) + ", " + area);
             }
         }

@@ -39,6 +39,20 @@ class Test4Driver extends TestDriver implements GlobalConst
     
     Test4Driver ()
     {
+    	
+    }
+    
+    public boolean distanceTest ()
+    {
+    	Initialize();
+    	DistanceQuery();       
+    	System.out.println("Finished Distance Test 4");
+    	return true;
+    }
+    
+    public void Initialize ()
+    {
+    	System.out.print("Started Test 4- Distance Test" + "\n");
 
     }
     
@@ -198,7 +212,7 @@ class Test4Driver extends TestDriver implements GlobalConst
     	System.out.println("Query: Find the distance of Rectangle1 and Rectangle2"+
     						"SELECT SDO_GEOM.SDO_DISTANCE (st1.shape, st2.shape, 0.005)"+
     						"FROM ShapesTable st1, ShapesTable st2"+
-    						"WHERE st1.shape='Rectangle1' AND st2.shape='Rectangle2'\n");
+    						"WHERE st1.shapeName = 'Rectangle1' AND st2.shapeName = 'Rectangle2'\n");
     	
     	CondExpr[] outFilter = new CondExpr[3];
         outFilter[0] = new CondExpr();
@@ -259,9 +273,9 @@ class Test4Driver extends TestDriver implements GlobalConst
             while ((t = am.get_next()) != null) 
             {
                 t.print(jtype);
-                x[i++] = t.getSdoGeometryFld(2);	//2nd field is shape in t now
+                xy[i++] = t.getSdoGeometryFld(2);	//2nd field is shape in t now
             }
-            double distance = x[0].Distance(x[1]);
+            double distance = xy[0].Distance(xy[1]);
             
             if (distance > 0.0)
             	System.out.println ("Distance is "+distance);
