@@ -6,12 +6,12 @@
 JARFILES=bufmgr/*.class diskmgr/*.class global/*.class iterator/*.class\
          heap/*.class chainexception/*.class  btree/*.class index/*.class tests/*.class
 
-JDKPATH = /usr/java/latest
+JDKPATH = /Library/java/JavaVirtualMachines/jdk1.8.0_92.jdk
 LIBPATH = .:..
-CLASSPATH = $(JDKPATH)/lib/classes.zip:.:..:$(LIBPATH)
-BINPATH = $(JDKPATH)/bin
-JAVAC = $(JDKPATH)/bin/javac -classpath $(CLASSPATH)
-JAVA  = $(JDKPATH)/bin/java  -classpath $(CLASSPATH)
+CLASSPATH = $(LIBPATH)
+BINPATH = $(JDKPATH)/Contents/Home/bin
+JAVAC = $(JDKPATH)/Contents/Home/bin/javac -classpath $(CLASSPATH)
+JAVA  = $(JDKPATH)/Contents/Home/bin/java  -classpath $(CLASSPATH)
 
 DOCFILES=bufmgr diskmgr global chainexception heap btree iterator index
 
@@ -42,7 +42,8 @@ doc:
 	$(JAVADOC) $(DOCFILES)
 
 test: 
-	cd tests; make bmtest dbtest; whoami; make hftest bttest indextest jointest sorttest sortmerge
+	# cd tests; make bmtest dbtest; whoami; make hftest bttest indextest jointest sorttest sortmerge
+	cd tests; make Test1; make Test2; make Test3;
 
 clean:
 	\rm -f $(CLASSPATH)/*.class *~ \#* core $(JARFILES) TRACE
