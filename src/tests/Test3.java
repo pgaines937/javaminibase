@@ -65,12 +65,12 @@ class Test3Driver extends TestDriver implements GlobalConst
 		int num_shapes_table = 2;
 		
 		//insert two table entries for shapes table
-        
-        double[] vertices1 = new double[] {1.0, 1.0, 2.0, 3.0};
+
+        double[] vertices1 = new double[] {1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0};
 
         shapesTable.addElement(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        double[] vertices2 = new double[] {2.5, 3.5, 3.5, 4.5};
+        double[] vertices2 = new double[] {2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5};
 
         shapesTable.addElement(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices2)));
         
@@ -95,7 +95,14 @@ class Test3Driver extends TestDriver implements GlobalConst
             System.err.println("" + e);
         }
         SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
-        
+
+
+        //print query
+        System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
+
         //create the ShapesTables
         AttrType[] STtypes = new AttrType[3];
         STtypes[0] = new AttrType(AttrType.attrInteger);
@@ -118,7 +125,11 @@ class Test3Driver extends TestDriver implements GlobalConst
         }
         
         int size = t.size();
-        
+
+        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
+
+
         // inserting the tuple into file "ShapesTable"
         RID             rid;
         Heapfile        f = null;
@@ -192,7 +203,12 @@ class Test3Driver extends TestDriver implements GlobalConst
             e.printStackTrace();
             Runtime.getRuntime().exit(1);
         }
-        
+
+        //print index query
+        System.out.println("CREATE INDEX ShapesSpatialIdx ");
+        System.out.println("ON Shapes Table('Shape')");
+        System.out.println("INDEXTYPE IS SPATIAL INDEX");
+
         // create the index file using Binary Tree
         BTreeFile btf = null;
         try 

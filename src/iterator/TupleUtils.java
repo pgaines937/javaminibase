@@ -43,7 +43,7 @@ public class TupleUtils
       float t1_r,  t2_r;
       String t1_s, t2_s;
       //new addition
-      Sdo_geometry s1_g, s2_g;
+      SDOGeometry s1_g, s2_g;
       //new addition
       
       switch (fldType.attrType) 

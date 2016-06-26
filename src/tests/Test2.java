@@ -113,7 +113,14 @@ class Test2Driver extends TestDriver implements GlobalConst
             System.err.println("" + e);
         }
         SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
-        
+
+
+        //print query
+        System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
+
         //create the ShapesTables
         AttrType[] STtypes = new AttrType[3];
         STtypes[0] = new AttrType(AttrType.attrInteger);
@@ -140,7 +147,7 @@ class Test2Driver extends TestDriver implements GlobalConst
 
         // print query
         System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
-        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
 
 
         // inserting the tuple into file "ShapesTable"
@@ -221,7 +228,8 @@ class Test2Driver extends TestDriver implements GlobalConst
         {
             System.err.println("" + e);
         }
-        
+
+
      // creating the sdogeommetadata relation
         AttrType[] MDtypes = new AttrType[4];
         MDtypes[0] = new AttrType(AttrType.attrString);
