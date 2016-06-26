@@ -21,24 +21,24 @@ public class SDOGeometry {
 	        this.coords = coords; // Coordinates of Shape
 	 }
 	 
-	 public double area() 
+	 public double area() {
 
 		 switch (this.shapeType) {
 			 case RECTANGLE:
-				 double area = Math.abs(coords[2] - coords[0]) * Math.abs(coords[1] - coords[3]);
+				 double area = Math.abs((coords[2]-coords[0]) * (coords[5]-coords[1]));
 				 return area;
 				 break;
 			 case TRIANGLE:
 				 return area = Math.abs((coords[0]*(coords[3]-coords[5])) + (coords[2]*(coords[5]-coords[1])) + (coords[2]*(coords[5]-coords[1])));
 				 break;
 			 case CIRCLE:
-				 double radius = (coord[0] - coord[1]);
+				 double radius = (coords[0] - coords[2]);
 				 return area = Math.abs((radius * radius * Math.PI));
 				 break;
 			 case POLYGON:
 				 return area = 0;
 				 break;
-			 default
+			 default:
 				 return area = 0;
 				 break;
 		 }
