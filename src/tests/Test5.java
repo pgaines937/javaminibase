@@ -2,7 +2,7 @@ package tests;
 import btree.BTreeFile;
 import btree.IntegerKey;
 import global.*;
-import global.GlobalConst.Sdo_gtype;
+import global.SDOGeometry.SDOGeomType;
 import heap.Heapfile;
 import heap.Scan;
 import heap.Tuple;
@@ -24,7 +24,7 @@ public class Test5 {
 		
 		if (test5_flag != true) 
 		{
-            System.out.println("Error ocurred Area Test 5");
+            System.out.println("Error occurred Area Test 5");
         }
         else 
         {
@@ -42,24 +42,37 @@ class Test5Driver extends TestDriver implements GlobalConst
     
     Test5Driver ()
     {
-    	System.out.print("Started Test 5- Area Test" + "\n");
+
+    }
+    
+    public boolean areaTest ()
+    {
+        Initialize();
+    	AreaQuery();
+    	System.out.println("Finished Area Test5");
+    	return true;
+    }
+
+    public void Initialize ()
+    {
+        System.out.print("Started Test 5- Area Test" + "\n");
 
         //build shapesTable table
         shapesTable = new Vector();
 
-        double[] vertices1 = new double[] {1.0, 1.0, 2.0, 3.0};
-        shapesTable.addElement(new ShapesTable(1, "Rectangle1", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices1)));
+        double[] vertices1 = new double[] {1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0};
+        shapesTable.addElement(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        vertices1 = new double[] {2.5, 3.5, 3.5, 4.5};
+        vertices1 = new double[] {2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5};
 
-        shapesTable.addElement(new ShapesTable(2, "Rectangle2", new Sdo_geometry(Sdo_gtype.RECTANGLE, vertices1)));
-        
+        shapesTable.addElement(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
+
         boolean status = OK;
         int num_shapes_table_attributes = 3;
-		int num_shapes_table = 2;
-		int num_sdo_geom_attributes = 4;
-		int num_sdo_geom = 1;
-        
+        int num_shapes_table = 2;
+        int num_sdo_geom_attributes = 4;
+        int num_sdo_geom = 1;
+
         String dbpath = "/tmp/" + System.getProperty("user.name") + ".minibase.Test5db";
         String logpath = "/tmp/" + System.getProperty("user.name") + ".test5log";
 
@@ -68,111 +81,116 @@ class Test5Driver extends TestDriver implements GlobalConst
         String remove_dbcmd = remove_cmd + dbpath;
         String remove_sts3cmd = remove_cmd + dbpath;
 
-        try 
+        try
         {
             Runtime.getRuntime().exec(remove_logcmd);
             Runtime.getRuntime().exec(remove_dbcmd);
             Runtime.getRuntime().exec(remove_sts3cmd);
         }
-        catch (IOException e) 
+        catch (IOException e)
         {
             System.err.println("" + e);
         }
-        
+
         SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
+
+
+        //print query
+        System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
 
         // creating the shapesTable relation
         AttrType[] STtypes = new AttrType[3];
         STtypes[0] = new AttrType(AttrType.attrInteger);
         STtypes[1] = new AttrType(AttrType.attrString);
         STtypes[2] = new AttrType(AttrType.attrSdoGeometry);
-        
-      //SOS
+
+        //SOS
         short[] STsizes = new short[1];
         STsizes[0] = 30; //first elt. is 30
 
         Tuple t = new Tuple();
-        try 
+        try
         {
             t.setHdr((short) 3, STtypes, STsizes);
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             System.err.println("*** error in Tuple.setHdr() ***");
             status = FAIL;
             e.printStackTrace();
         }
-  
-        
+
+
         int size = t.size();
         System.out.println("Size:" + size);
+
+        // print query
+        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
+
 
         // selecting the tuple into file "ShapesTable"
         RID rid;
         Heapfile f = null;
-        try 
+        try
         {
             f = new Heapfile("ShapesTable.in");
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             System.err.println("*** error in Heapfile constructor ***");
             status = FAIL;
             e.printStackTrace();
         }
-        
+
         t = new Tuple(size);
-        try 
+        try
         {
             t.setHdr((short) 3, STtypes, STsizes);
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             System.err.println("*** error in Tuple.setHdr() ***");
             status = FAIL;
             e.printStackTrace();
         }
-        
-        for (int i = 0; i < num_shapes_table; i++) 
+
+        for (int i = 0; i < num_shapes_table; i++)
         {
-            try 
+            try
             {
                 t.setIntFld(1, ((ShapesTable) shapesTable.elementAt(i)).shapeId);
                 t.setStrFld(2, ((ShapesTable) shapesTable.elementAt(i)).shapeName);
                 t.setSdoGeometryFld(3, ((ShapesTable) shapesTable.elementAt(i)).shape);
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 System.err.println("*** Heapfile error in Tuple.setStrFld() ***");
                 status = FAIL;
                 e.printStackTrace();
             }
-            
-            try 
+
+            try
             {
                 rid = f.insertRecord(t.returnTupleByteArray());
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 System.err.println("*** error in Heapfile.selectRecord() ***");
                 status = FAIL;
                 e.printStackTrace();
             }
         }
-        
-        if (status != OK) 
+
+        if (status != OK)
         {
             //bail out
             System.err.println("*** Error creation relation for ShapesTable");
             Runtime.getRuntime().exit(1);
         }
-    }
-    
-    public boolean areaTest ()
-    {
-    	AreaQuery();
-    	System.out.println("Finished Area Test5");
-    	return true;
     }
     
     public void AreaQuery ()
@@ -243,12 +261,12 @@ class Test5Driver extends TestDriver implements GlobalConst
             System.out.println("shapeName, Area");
             while ((t = am.get_next()) != null) 
             {
-                Sdo_geometry sdoval = t.getSdoGeometryFld(2);
+                SDOGeometry sdoval = t.getSdoGeometryFld(2);
                 
                 if (sdoval != null) 
                 {
-                    String output = "SDO_GEOMETRY(shapeType-" + (int) sdoval.shapeType.ordinal() + ",[ ";
-                    for (double d : sdoval.coordinatesOfShape)
+                    String output = "SDOGeometry(shapeType-" + (int) sdoval.shapeType.ordinal() + ",[ ";
+                    for (double d : sdoval.coords)
                         output += d + ",";
                     System.out.println(output + "])");
                 }
