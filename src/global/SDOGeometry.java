@@ -94,103 +94,49 @@ public class SDOGeometry {
 	 //Determines the distance between this shape and another, returns the distance (-1 if error)
 	 public double Distance(SDOGeometry X)
 	 {
-	        double distance = 0;
-			
-			//Find out which distance method is required to be called
-			switch (this.shapeType) {
-			 //This shape is a rectangle, but we need to determine what the other shape is
-			 case RECTANGLE:
-				switch (X.shapeType) {
-					case RECTANGLE:	//This is rectangle, other is rectangle
-						distance = rectangleRectangleDistance(this, X);
-						break;
-					case TRIANGLE:	//This is rectangle, other is triangle
-						distance = rectangleTriangleDistance(this, X);
-						break;
-					case CIRCLE:	//This is rectangle, other is circle
-						distance = rectangleCircleDistance(this, X);
-						break;
-					case POLYGON:	//This is rectangle, other is Polygon
-						distance = rectanglePolygonDistance(this, X);
-						break;
-					default:
-						distance = -1;
-						break;
-				}
-				 break;//End cases where this object is rectangle
-				 
-			//Begin cases where this is a triangle, now we determine what the other shape is	 
-			 case TRIANGLE:
-				switch (X.shapeType) {
-					case RECTANGLE:	//This is triangle, other is rectangle
-						distance = rectangleTriangleDistance(X, this);
-						break;
-					case TRIANGLE:	//This is triangle, other is triangle
-						distance = triangleTriangleDistance(this, X);
-						break;
-					case CIRCLE:	//This is triangle, other is circle
-						distance = triangleCircleDistance(this, X);
-						break;
-					case POLYGON:	//This is triangle, other is Polygon
-						distance = trianglePolygonDistance(this, X);
-						break;
-					default:
-						distance = -1;
-						break;
-				}				 
-				 break; //End cases where this is a Triangle
-			
-			//Begin cases where this is a circle, now we determine what the other shape is
-			 case CIRCLE:
-				switch (X.shapeType) {
-					case RECTANGLE:	//This is Circle, other is rectangle
-						distance = rectangleCircleDistance(X, this);
-						break;
-					case TRIANGLE:	//This is Circle, other is triangle
-						distance = triangleCircleDistance(X, this);
-						break;
-					case CIRCLE:	//This is Circle, other is circle
-						distance = circleCircleDistance(this, X);
-						break;
-					case POLYGON:	//This is Circle, other is Polygon
-						distance = circlePolygonDistance(this, X);
-						break;
-					default:
-						distance = -1;					
-						break;
-				}				 
-				 break;
-				 
-			//Begin cases where this is a polygon, now we determine what the other shape is
-			 case POLYGON:
-				switch (X.shapeType) {
-					case RECTANGLE:	//This is polygon, other is rectangle
-						distance = rectanglePolygonDistance(X, this);
-						break;
-					case TRIANGLE:	//This is polygon, other is triangle
-						distance = trianglePolygonDistance(X, this);
-						break;
-					case CIRCLE:	//This is polygon, other is circle
-						distance = circlePolygonDistance(X, this);
-						break;
-					case POLYGON:	//This is polygon, other is Polygon
-						distance = polygonPolygonDistance(this, X);
-						break;
-					default:
-					
-					
-						break;
-				}
-				 break;
-			//If the shapetype is out of bounds, return -1 as distance to signify error	 
-				default:
-				 distance = -1;
-				 break;
+		 double recA[] = new double[8];
+		 double recB[] = new double[8];
+		 double distance[] = new double[16];
+		 int count=0;
+
+		 recA[0]=coords[0];
+		 recA[1]=coords[1];
+		 recA[2]=coords[2];
+		 recA[3]=coords[3];
+		 recA[4]=coords[0];
+		 recA[5]=coords[3];
+		 recA[6]=coords[2];
+		 recA[7]=coords[1];
+
+		 recB[0]=X.coords[0];
+		 recB[1]=X.coords[1];
+		 recB[2]=X.coords[2];
+		 recB[3]=X.coords[3];
+		 recB[4]=X.coords[0];
+		 recB[5]=X.coords[3];
+		 recB[6]=X.coords[2];
+		 recB[7]=X.coords[1];
+
+		 for (int i=0;i<8;i=i+2)
+		 {
+			 for(int j=0;j<8;j=j+2)
+			 {
+				 distance[count]=dist(recA[i],recA[i+1],recB[j],recB[j+1]);
+				 count++;
+			 }
 		 }
-         
-         return distance;
-			
-	    }
+		 int p1=0;
+		 double minDist=distance[p1];
+		 for (p1=0;p1<16;p1++)
+		 {
+			 if (distance[p1]<minDist)
+				 minDist=distance[p1];
+		 }
+		 System.out.println("Minimum distance= "+minDist);
+		 return minDist;
+
+	 }
+
 	 
 	 private double dist(double x1, double y1, double x2, double y2)
 	 {
@@ -293,9 +239,10 @@ public class SDOGeometry {
 	 private double rectangleRectangleDistance(SDOGeometry X, SDOGeometry Y){
 		 double minDistance = Double.POSITIVE_INFINITY;	//minimum distance between two points on the shapes
 		 double currentDistance;	//distance between two points in question
-		 
-		 for(int i=0 ; i<4 ; i++){
-			 for(int j=0 ; j<4 ; j++){
+		 System.out.println(X.coords.length);
+		 System.out.println(Y.coords.length);
+		 for(int i=0 ; i<2 ; i++){
+			 for(int j=0 ; j<2 ; j++){
 				 currentDistance = dist(X.coords[i*2], X.coords[i*2+1], Y.coords[j*2], Y.coords[j*2+1]); //Calculate the distance between the two points
 				 if(currentDistance < minDistance){ //And if it's the smallest one we've found yet
 					 minDistance = currentDistance;	//save it for future comparisons

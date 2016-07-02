@@ -11,6 +11,7 @@ import iterator.*;
 
 import java.io.IOException;
 import java.util.Vector;
+import java.util.ArrayList;
 
 class ShapesTable {
     public static final String tablename = "ShapesTable";
@@ -48,7 +49,7 @@ class Test1Driver extends TestDriver implements GlobalConst
 {
 	private boolean OK = true;
 	private boolean FAIL = false;
-	private Vector shapesTable;
+	private ArrayList shapesTable = new ArrayList();
 	
 	public Test1Driver()
 	{

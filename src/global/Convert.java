@@ -433,7 +433,7 @@ public class Convert{
 	  // creates a byte array with this output stream size and the
 	// valid contents of the buffer have been copied into it
 	  byte[] byteArray = ((ByteArrayOutputStream) os).toByteArray();
-      int size = outstr.size()+1;
+      int size = outstr.size();
       // copies the first sz bytes of this byte array into data[]
       System.arraycopy(byteArray, 0, data, position, size);
       }
