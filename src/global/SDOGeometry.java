@@ -16,6 +16,9 @@ public class SDOGeometry {
 									 // shapeType = 2, Circle
 									 // shapeType = 2, Polygon
 	        this.coords = coords; // Coordinates of Shape
+	        
+	        checkShape();	//Checks to make sure shape has valid number of coordinates; prints error message otherwise.
+	        	
 	 }
     
     	 /*This constructor takes as input an array of doubles, 
@@ -52,7 +55,7 @@ public class SDOGeometry {
 		 
 		 this.coords = new double[lastCoordinate - 1];	//Creates a new array in coords of the appropriate length
 		 
-		 for(int i=1; i<coords.length; i++){	//Copy the input array over to our coordinate array
+		 for(int i=0; i<coords.length; i++){	//Copy the input array over to our coordinate array
 			 coords[i] = inputArray[i+1];
 		 }
 		 
@@ -66,7 +69,7 @@ public class SDOGeometry {
 		 for(int i=0; i<coords.length; i++){	//the rest is a copy of our coordinate array
 			output[i+1] = coords[i];
 		 }
-		 for(int i=coords.length; i<9; i++){	//any array values not needed in our representation are instead given the POSITIVE_INFINITY value
+		 for(int i=coords.length; i<8; i++){	//any array values not needed in our representation are instead given the POSITIVE_INFINITY value
 			 output[i+1] = Double.POSITIVE_INFINITY;
 		 }
 		 
@@ -74,27 +77,132 @@ public class SDOGeometry {
 	 }
 	 
 	 public double area() {
-
+		 double area = 0.0;
 		 switch (this.shapeType) {
-			 case RECTANGLE:
-				 double area = Math.abs((coords[2]-coords[0]) * (coords[5]-coords[1]));
-				 return area;
+			 case RECTANGLE:	//Rectangle area is length*width
+				 double length = dist(coords[0],coords[1],coords[2],coords[3]); //find length
+				 double width = dist(coords[0],coords[1],coords[6],coords[7]); //find width
+				 area = length * width;	//find area
+				 break;
 			 case TRIANGLE:
-				 return area = Math.abs((coords[0]*(coords[3]-coords[5])) + (coords[2]*(coords[5]-coords[1])) + (coords[2]*(coords[5]-coords[1])));
+				  area = Math.abs((coords[0]*(coords[3]-coords[5])) + (coords[2]*(coords[5]-coords[1])) + (coords[4]*(coords[1]-coords[3])))/2;
+				  break;
 			 case CIRCLE:
-				 double radius = (coords[0] - coords[2]);
-				 return area = Math.abs((radius * radius * Math.PI));
+				 double radius = dist(coords[0],coords[1],coords[2],coords[3]);
+				 area = Math.abs((radius * radius * Math.PI));
+				 break;
 			 case POLYGON:
-				 return area = 0;
+				 area = 0;
+				 break;
 			 default:
-				 return area = 0;
+				 area = 0;
 		 }
+		 return area;
 	 }
 	 
 	 //Determines the distance between this shape and another, returns the distance (-1 if error)
 	 public double Distance(SDOGeometry X)
 	 {
-		 double recA[] = new double[8];
+		 
+		 double distance = -1.0;
+			
+		//Find out which distance method is required to be called
+		switch (this.shapeType) {
+		 //This shape is a rectangle, but we need to determine what the other shape is
+		 case RECTANGLE:
+			switch (X.shapeType) {
+				case RECTANGLE:	//This is rectangle, other is rectangle
+					distance = rectangleRectangleDistance(this, X);
+					break;
+				case TRIANGLE:	//This is rectangle, other is triangle
+					distance = rectangleTriangleDistance(this, X);
+					break;
+				case CIRCLE:	//This is rectangle, other is circle
+					distance = rectangleCircleDistance(this, X);
+					break;
+				case POLYGON:	//This is rectangle, other is Polygon
+					distance = rectanglePolygonDistance(this, X);
+					break;
+				default:
+					distance = -1;
+					break;
+			}
+			 break;//End cases where this object is rectangle
+			 
+		//Begin cases where this is a triangle, now we determine what the other shape is	 
+		 case TRIANGLE:
+			switch (X.shapeType) {
+				case RECTANGLE:	//This is triangle, other is rectangle
+					distance = rectangleTriangleDistance(X, this);
+					break;
+				case TRIANGLE:	//This is triangle, other is triangle
+					distance = triangleTriangleDistance(this, X);
+					break;
+				case CIRCLE:	//This is triangle, other is circle
+					distance = triangleCircleDistance(this, X);
+					break;
+				case POLYGON:	//This is triangle, other is Polygon
+					distance = trianglePolygonDistance(this, X);
+					break;
+				default:
+					distance = -1;
+					break;
+			}				 
+			 break; //End cases where this is a Triangle
+		
+		//Begin cases where this is a circle, now we determine what the other shape is
+		 case CIRCLE:
+			switch (X.shapeType) {
+				case RECTANGLE:	//This is Circle, other is rectangle
+					distance = rectangleCircleDistance(X, this);
+					break;
+				case TRIANGLE:	//This is Circle, other is triangle
+					distance = triangleCircleDistance(X, this);
+					break;
+				case CIRCLE:	//This is Circle, other is circle
+					distance = circleCircleDistance(this, X);
+					break;
+				case POLYGON:	//This is Circle, other is Polygon
+					distance = circlePolygonDistance(this, X);
+					break;
+				default:
+					distance = -1;					
+					break;
+			}				 
+			 break;
+			 
+		//Begin cases where this is a polygon, now we determine what the other shape is
+		 case POLYGON:
+			switch (X.shapeType) {
+				case RECTANGLE:	//This is polygon, other is rectangle
+					distance = rectanglePolygonDistance(X, this);
+					break;
+				case TRIANGLE:	//This is polygon, other is triangle
+					distance = trianglePolygonDistance(X, this);
+					break;
+				case CIRCLE:	//This is polygon, other is circle
+					distance = circlePolygonDistance(X, this);
+					break;
+				case POLYGON:	//This is polygon, other is Polygon
+					distance = polygonPolygonDistance(this, X);
+					break;
+				default:
+				
+				
+					break;
+			}
+			 break;
+		//If the shapetype is out of bounds, return -1 as distance to signify error	 
+		 default:
+			 distance = -1;
+			 break;
+	 }//end outer switch
+     
+      return distance;
+		 
+		 
+		 
+		 /*
 		 double recB[] = new double[8];
 		 double distance[] = new double[16];
 		 int count=0;
@@ -134,6 +242,8 @@ public class SDOGeometry {
 		 }
 		 System.out.println("Minimum distance= "+minDist);
 		 return minDist;
+		 
+		 */
 
 	 }
 
@@ -232,6 +342,7 @@ public class SDOGeometry {
 
 		 return newCoordinates;
 	 }
+	 
     
     	 /*Determines the distance between two rectangles
 	   Param X: a rectangle SDOGeometry object
@@ -239,10 +350,8 @@ public class SDOGeometry {
 	 private double rectangleRectangleDistance(SDOGeometry X, SDOGeometry Y){
 		 double minDistance = Double.POSITIVE_INFINITY;	//minimum distance between two points on the shapes
 		 double currentDistance;	//distance between two points in question
-		 System.out.println(X.coords.length);
-		 System.out.println(Y.coords.length);
-		 for(int i=0 ; i<2 ; i++){
-			 for(int j=0 ; j<2 ; j++){
+		 for(int i=0 ; i<4 ; i++){
+			 for(int j=0 ; j<4 ; j++){
 				 currentDistance = dist(X.coords[i*2], X.coords[i*2+1], Y.coords[j*2], Y.coords[j*2+1]); //Calculate the distance between the two points
 				 if(currentDistance < minDistance){ //And if it's the smallest one we've found yet
 					 minDistance = currentDistance;	//save it for future comparisons
@@ -397,4 +506,89 @@ public class SDOGeometry {
 	 private double rectanglePolygonDistance(SDOGeometry X, SDOGeometry Y){
 		 return -1;
 	 }
+	 
+	 /*
+	  * Creates a string representation of this geometry type
+	  * Basic format is 
+	  * <shapeType>
+	  * {<coords>}
+	  */
+	 public String toString(){
+		 
+		 String output = geomTypeToString(this.shapeType) + "\n {" + coords[0];
+		 for(int i=1; i<coords.length; i++){
+			 output = output + ", " + coords[i]; 
+		 }
+		 output = output + "}";
+		 return output;
+	 }
+	 
+	 /* Takes in a SDOGeomType, and converts it into a string
+	  * So a RECTANGLE becomes "RECTANGLE" */
+	 
+	 public String geomTypeToString(SDOGeomType typeToConvert){
+		 String output;
+		 
+		 switch (typeToConvert) {
+			 
+		 case RECTANGLE:
+			 output = "RECTANGLE";
+			 break;
+		 case TRIANGLE:
+			 output = "TRIANGLE";
+			 break;
+		 case CIRCLE:
+			 output = "CIRCLE";
+			 break;
+		 case POLYGON:
+			 output = "POLYGON";
+			 break;
+		default:
+			output = "ERROR";
+			break;
+	 }// end switch
+		 
+		 return output;
+	 }
+	 
+	 /*
+	  * This method checks to see if the shape has the correct number of coordinates
+	  * for its shapetype. Will return TRUE if so, FALSE otherwise. Will also print
+	  * a warning to the console if shape in invalid
+	  * RECTANGLE = 8 (4 corners)
+	  * TRIANGLE = 6 (3 corners)
+	  * CIRCLE = 4 (one center and one point on the circle)
+	  * POLYGON = 8 (undefined at this time)
+	  */
+	 private boolean checkShape() {
+		 boolean flag = false;
+		 int correctNumberOfCoordinates = -1;
+		 
+		 switch(shapeType){	//First, find the number of coordinates we're supposed to have, based on the shapetype
+		 case RECTANGLE: 
+		 case POLYGON:	
+			 correctNumberOfCoordinates = 8;
+			 break;
+		 case TRIANGLE:
+			 correctNumberOfCoordinates = 6;
+			 break;
+		 case CIRCLE:
+			 correctNumberOfCoordinates = 4;
+			 break;
+		default:
+			correctNumberOfCoordinates = -1; //If there's a shapeType error, we'll error out at any number of coordinates
+		 }
+		 
+		 if(coords.length == correctNumberOfCoordinates){ 	//Then, if the number of coordinates present matches
+			 flag = true;									//what we expected, we're good, so return TRUE!
+		 }
+		 else {												//Otherwise, we'll print an error message and return FALSE.
+			 System.out.println("WARNING: INVALID NUMBER OF COORDINATES (" + coords.length + ") FOR SHAPE TYPE " + geomTypeToString(this.shapeType));
+		 }
+		 
+		 return flag;
+		 
+	 }
 }
+
+
