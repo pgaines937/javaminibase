@@ -1,10 +1,9 @@
-JDKPATH = /usr/java/latest
+JDKPATH = /Library/java/JavaVirtualMachines/jdk1.8.0_92.jdk
 LIBPATH = .:..
-CLASSPATH = $(JDKPATH)/lib/classes.zip:.:..:$(LIBPATH)
-BINPATH = $(JDKPATH)/bin
-JAVAC = $(JDKPATH)/bin/javac -classpath $(CLASSPATH)
-JAVA  = $(JDKPATH)/bin/java  -classpath $(CLASSPATH)
-
+CLASSPATH = $(LIBPATH)
+BINPATH = $(JDKPATH)/Contents/Home/bin
+JAVAC = $(JDKPATH)/Contents/Home/bin/javac -classpath $(CLASSPATH)
+JAVA  = $(JDKPATH)/Contents/Home/bin/java  -classpath $(CLASSPATH)
 PROGS = together
 
 all: $(PROGS)

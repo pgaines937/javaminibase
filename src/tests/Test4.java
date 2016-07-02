@@ -11,12 +11,13 @@ import iterator.*;
 
 import java.io.IOException;
 import java.util.Vector;
+import java.util.ArrayList;
 
 public class Test4 {
 
 	public static void main (String args[])
 	{
-		boolean test4_flag;
+		boolean test4_flag = true;
 		Test4Driver test4driver = new Test4Driver();
 		test4_flag = test4driver.distanceTest();
 
@@ -35,10 +36,24 @@ class Test4Driver extends TestDriver implements GlobalConst
 {
 	private boolean OK = true;
     private boolean FAIL = false;
-    private Vector shapesTable;
+    private ArrayList shapesTable = new ArrayList();
     
     Test4Driver ()
     {
+        //print query
+        /*System.out.println("CREATE TABLE ShapesTable");
+        System.out.println("shapesId NUMBER PRIMARY KEY");
+        System.out.println("name VARCHAR2(32)");
+        System.out.println("shape SDO_GEOMETRY)");
+
+        // print query
+        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
+
+        System.out.println("Query: Find the distance of Rectangle1 and Rectangle2"+
+                "SELECT SDO_GEOM.SDO_DISTANCE (st1.shape, st2.shape, 0.005)"+
+                "FROM ShapesTable st1, ShapesTable st2"+
+                "WHERE st1.shape='Rectangle1' AND st2.shape='Rectangle2'\n");*/
 
     }
     
@@ -55,14 +70,14 @@ class Test4Driver extends TestDriver implements GlobalConst
         System.out.print("Started Test 4- Distance Test" + "\n");
 
         //build shapesTable table
-        shapesTable = new Vector();
+        //shapesTable = new Vector();
 
-        double[] vertices1 = new double[] {1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0};
-        shapesTable.addElement(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
+        double[] vertices1 = new double[] {1.0, 2.0, 3.0, 4.0};
+        shapesTable.add(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        vertices1 = new double[] {2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5};
+        vertices1 = new double[] {2.5, 3.5, 4.5, 5.5};
 
-        shapesTable.addElement(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
+        shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
         boolean status = OK;
         int num_shapes_table_attributes = 3;
@@ -159,9 +174,9 @@ class Test4Driver extends TestDriver implements GlobalConst
         {
             try
             {
-                t.setIntFld(1, ((ShapesTable) shapesTable.elementAt(i)).shapeId);
-                t.setStrFld(2, ((ShapesTable) shapesTable.elementAt(i)).shapeName);
-                t.setSdoGeometryFld(3, ((ShapesTable) shapesTable.elementAt(i)).shape);
+                t.setIntFld(1, ((ShapesTable) shapesTable.get(i)).shapeId);
+                t.setStrFld(2, ((ShapesTable) shapesTable.get(i)).shapeName);
+                t.setSdoGeometryFld(3, ((ShapesTable) shapesTable.get(i)).shape);
             }
             catch (Exception e)
             {
@@ -172,7 +187,7 @@ class Test4Driver extends TestDriver implements GlobalConst
 
             try
             {
-                rid = f.insertRecord(t.returnTupleByteArray());
+                //rid = f.insertRecord(t.returnTupleByteArray());
             }
             catch (Exception e)
             {

@@ -11,6 +11,7 @@ import iterator.*;
 
 import java.io.IOException;
 import java.util.Vector;
+import java.util.ArrayList;
 
 class ShapesTable {
     public static final String tablename = "ShapesTable";
@@ -22,22 +23,6 @@ class ShapesTable {
         this.shapeId = _shapeId;
         this.shapeName = _shapeName;
         this.shape = _shape;
-    }
-}
-
-class SdoGeoMetaData 
-{
-	public String tableName;
-    public String columnName;
-    public double[] xDim;
-    public double[] yDim;
-
-    public SdoGeoMetaData(String tableName, String columnName, double[] xDim, double[] yDim) 
-    {
-        this.tableName = tableName;
-        this.columnName = columnName;
-        this.xDim = xDim;
-        this.yDim = yDim;
     }
 }
 
@@ -64,7 +49,7 @@ class Test1Driver extends TestDriver implements GlobalConst
 {
 	private boolean OK = true;
 	private boolean FAIL = false;
-	private Vector shapesTable;
+	private ArrayList shapesTable = new ArrayList();
 	
 	public Test1Driver()
 	{
