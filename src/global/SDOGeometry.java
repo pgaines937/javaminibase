@@ -270,72 +270,63 @@ public class SDOGeometry {
 		 GeometryFactory fact = new GeometryFactory();
 		 
 		 // Convert current object to JTS Geometry object
-		 SDOGeometry.SDOGeomType tempShapeType = SDOGeometry.SDOGeomType.values()[(int) tempArray[0]];
-		 switch (tempShapeType) { // shapeType
-			 case RECTANGLE:	//This is rectangle, other is rectangle
-				 width = tempArray[1] - tempArray[3];
-				 height = tempArray[5] - tempArray[1];
-				 centerX = width / 2;
-				 centerY = height / 2;
-				 gsf.setWidth(width);
-				 gsf.setHeight(height);
-				 gsf.setNumPoints(4);
-				 gsf.setBase(new Coordinate(centerX,centerY));
-				 shape1 = gsf.createRectangle();
+		 //SDOGeometry.SDOGeomType tempShapeType = SDOGeometry.SDOGeomType.values()[(int) tempArray[0]];
+		 switch (this.shapeType) { // shapeType
+			 case RECTANGLE:	//This is rectangle		 
+				 Coordinate[] rectangleArray = new Coordinate[] { new Coordinate(this.coords[0], this.coords[1]), 
+						 new Coordinate(this.coords[2], this.coords[3]), new Coordinate(this.coords[4], this.coords[5]), 
+						 new Coordinate(this.coords[6], this.coords[7]), new Coordinate(this.coords[0], this.coords[1]) };
+				 shape1 = fact.createPolygon(rectangleArray);
 				 break;
-			 case TRIANGLE:	//This is rectangle, other is triangle
-				 Coordinate[] p = new Coordinate[] { new Coordinate(tempArray[1], tempArray[2]), 
-						 new Coordinate(tempArray[3], tempArray[4]), new Coordinate(tempArray[5], tempArray[6]) };
-				 shape1 = fact.createPolygon(p);
+			 case TRIANGLE:	//This is triangle
+				 Coordinate[] triangleArray = new Coordinate[] { new Coordinate(this.coords[0], this.coords[1]), 
+						 new Coordinate(this.coords[2], this.coords[3]), new Coordinate(this.coords[4], this.coords[5]), new Coordinate(this.coords[0], this.coords[1]) };
+				 shape1 = fact.createPolygon(triangleArray);
 				 break;
-			 case CIRCLE:	//This is rectangle, other is circle
-				 radius = tempArray[1] - tempArray[3];
-				 centerX = tempArray[1];
-				 centerY = tempArray[2];
+			 case CIRCLE:	//This is circle
+				 radius = dist(this.coords[0], this.coords[1], this.coords[2], this.coords[3]);
+				 centerX = this.coords[0];
+				 centerY = this.coords[1];
 				 gsf.setSize(radius);
 				 gsf.setNumPoints(4);
 				 gsf.setBase(new Coordinate(centerX,centerY));
 				 shape1 = gsf.createCircle();
 				 break;
-			 case POLYGON:	//This is rectangle, other is Polygon
+			 case POLYGON:	//This is Polygon
 				 break;
 			 default:
 				 break;
 		 }
 
 		 // Convert passed in Geometry object to JTS Geometry object
-		 SDOGeometry.SDOGeomType xShapeType = SDOGeometry.SDOGeomType.values()[(int) X.coords[0]];
-		 switch (xShapeType) { // shapeType
-			 case RECTANGLE:	//This is rectangle, other is rectangle
-				 width = X.coords[1] - X.coords[3];
-				 height = X.coords[5] - X.coords[1];
-				 centerX = width / 2;
-				 centerY = height / 2;
-				 gsf.setWidth(width);
-				 gsf.setHeight(height);
-				 gsf.setNumPoints(4);
-				 gsf.setBase(new Coordinate(centerX,centerY));
-				 shape2 = gsf.createRectangle();
-				 break;
-			 case TRIANGLE:	//This is rectangle, other is triangle
-				 Coordinate[] p = new Coordinate[] { new Coordinate(X.coords[1], X.coords[2]),
-						 new Coordinate(X.coords[3], X.coords[4]), new Coordinate(X.coords[5], X.coords[6]) };
-				 shape2 = fact.createPolygon(p);
-				 break;
-			 case CIRCLE:	//This is rectangle, other is circle
-				 radius = tempArray[1] - tempArray[3];
-				 centerX = tempArray[1];
-				 centerY = tempArray[2];
-				 gsf.setSize(radius);
-				 gsf.setNumPoints(4);
-				 gsf.setBase(new Coordinate(centerX,centerY));
-				 shape2 = gsf.createCircle();
-				 break;
-			 case POLYGON:	//This is rectangle, other is Polygon
-				 break;
-			 default:
-				 break;
+		 //SDOGeometry.SDOGeomType xShapeType = SDOGeometry.SDOGeomType.values()[(int) X.coords[0]];
+		 switch (X.shapeType) { // shapeType
+		 	case RECTANGLE:	//X is rectangle
+		 		Coordinate[] rectangleArray = new Coordinate[] { new Coordinate(X.coords[0], X.coords[1]), 
+						 new Coordinate(X.coords[2], X.coords[3]), new Coordinate(X.coords[4], X.coords[5]), 
+						 new Coordinate(X.coords[6], X.coords[7]), new Coordinate(X.coords[0], X.coords[1]) };
+				 shape2 = fact.createPolygon(rectangleArray);
+		 		break;
+		 	case TRIANGLE:	//X is triangle
+		 		Coordinate[] p = new Coordinate[] { new Coordinate(X.coords[0], X.coords[1]), 
+		 				new Coordinate(X.coords[2], X.coords[3]), new Coordinate(X.coords[4], X.coords[5]), new Coordinate(X.coords[0], X.coords[1]) };
+		 		shape2 = fact.createPolygon(p);
+		 		break;
+		 	case CIRCLE:	//X is circle
+		 		radius = dist(X.coords[0], X.coords[1], X.coords[2], X.coords[3]);
+		 		centerX = X.coords[0];
+		 		centerY = X.coords[1];
+		 		gsf.setSize(radius);
+		 		gsf.setNumPoints(4);
+		 		gsf.setBase(new Coordinate(centerX,centerY));
+		 		shape2 = gsf.createCircle();
+		 		break;
+		 	case POLYGON:	//X is Polygon
+		 		break;
+		 	default:
+		 		break;
 		 }
+		 
 
 		 Geometry newShape = shape1.intersection(shape2);
 		 Coordinate[] newCoordinates = newShape.getCoordinates();

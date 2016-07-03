@@ -2,6 +2,7 @@ package tests;
 
 import global.*;
 import global.SDOGeometry.SDOGeomType;
+import com.vividsolutions.jts.geom.*;
 
 public class SDOGeometryTest {
 
@@ -38,6 +39,18 @@ public class SDOGeometryTest {
 		System.out.println("Error message should follow:");
 		double[] myCoords5 = {4.0, 1.0, 3.0, 1.0};
 		SDOGeometry myShape6 = new SDOGeometry(SDOGeomType.RECTANGLE, myCoords5);
+		System.out.println("\n");
+		
+		System.out.println("Testing Intersection:");
+		Coordinate[] intersectionCoordinates;
+		double[] myCoords6 = {1.5, 1.5, 1.5, 2.5, 2.5, 2.5, 2.5, 1.5};
+		SDOGeometry myShape7 = new SDOGeometry(SDOGeomType.RECTANGLE, myCoords6);
+		SDOGeometry myShape8 = new SDOGeometry(SDOGeomType.RECTANGLE, myCoords1);
+		intersectionCoordinates = myShape7.intersection(myShape8);
+		for(int i=0; i<intersectionCoordinates.length; i++){
+			System.out.println("(" + intersectionCoordinates[i].x + ", " + intersectionCoordinates[i].y + ")");
+		}
+
 	}
 		
 }
