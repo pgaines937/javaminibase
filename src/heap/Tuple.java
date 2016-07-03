@@ -434,11 +434,11 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
      break;       
  
    case AttrType.attrSdoGeometry:
-	   incr = 50;
+	   incr = 66;
 	   break;
 	   
    case AttrType.attrRealNoArray:
-	   incr = 50;
+	   incr = 32;
 	   break;
    default:
     throw new InvalidTypeException (null, "TUPLE: TUPLE_TYPE_ERROR");
@@ -463,11 +463,11 @@ public void setHdr (short numFlds,  AttrType types[], short strSizes[])
      break;
 
    case AttrType.attrSdoGeometry:
-	   incr = 50;
+	   incr = 66;
 	   break;
 	   
    case AttrType.attrRealNoArray:
-	   incr = 50;
+	   incr = 32;
 	   break;
    default:
     throw new InvalidTypeException (null, "TUPLE: TUPLE_TYPE_ERROR");

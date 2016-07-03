@@ -34,14 +34,17 @@ public class Test1 {
 		boolean test1_flag;
 		
 		Test1Driver test1driver = new Test1Driver ();
-		
+		System.out.println ("************************************Started Test 1************************************");
 		test1_flag = test1driver.createTest();
-        if (test1_flag != true) {
+        if (test1_flag != true) 
+        {
             System.out.println("Error occurred during Test1");
         }
-        else {
+        else 
+        {
             System.out.println("Test1 completed successfully");
         }
+        System.out.println ("************************************Ended Test 1**************************************");
 	}
 }
 
@@ -57,9 +60,8 @@ class Test1Driver extends TestDriver implements GlobalConst
 	}
 	
 	public boolean createTest()
-	{
+	{	
 		System.out.println ("Started Test 1");
-		
 		boolean status = OK;
 		//int num_shapes_table_attributes = 3;
 		//int num_shapes_table = 2;

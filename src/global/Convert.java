@@ -179,31 +179,33 @@ public class Convert{
       y3 = instr.readDouble();
       x4 = instr.readDouble();
       y4 = instr.readDouble();
-      x5 = instr.readDouble();
-      y5 = instr.readDouble();
-      x6 = instr.readDouble();
-      y6 = instr.readDouble();
-      x7 = instr.readDouble();
-      y7 = instr.readDouble();
-      x8 = instr.readDouble();
-      y8 = instr.readDouble();
-      double [] array = new double [15];
-      array[0] = x1;
+      //x5 = instr.readDouble();
+      //y5 = instr.readDouble();
+      //x6 = instr.readDouble();
+      //y6 = instr.readDouble();
+      //x7 = instr.readDouble();
+      //y7 = instr.readDouble();
+      //x8 = instr.readDouble();
+      //y8 = instr.readDouble();
+      //double [] array = new double [15];
+      //double [] array = new double [15];
+      double [] array = {x1, y1, x2, y2, x3, y3, x4, y4};
+      /*array[0] = x1;
       array[1] = y1;
       array[2] = x2;
       array[3] = y2;
       array[4] = x3;
       array[5] = y3;
-      array[5] = x4;
-      array[6] = y4;
-      array[7] = x5;
-      array[8] = y5;
-      array[9] = x6;
-      array[10] = y6;
-      array[11] = x7;
-      array[12] = y7;
-      array[13] = x8;
-      array[14] = y8;
+      array[6] = x4;
+      array[7] = y4;*/
+      //array[7] = x5;
+      //array[8] = y5;
+      //array[9] = x6;
+      //array[10] = y6;
+      //array[11] = x7;
+      //array[12] = y7;
+      //array[13] = x8;
+      //array[14] = y8;
 	  SDOGeometry value = new SDOGeometry (SDOGeometry.SDOGeomType.RECTANGLE, array);
 	  
 	  return value;
@@ -213,9 +215,9 @@ public class Convert{
   {
 	  InputStream in;
 	  DataInputStream instr;
-	  byte temp[] = new byte [50];
+	  byte temp[] = new byte [66];
 	// copy the value from data array out to a temp byte array
-	  System.arraycopy(data, position, temp, 0, 50);
+	  System.arraycopy(data, position, temp, 0, 66);
 	  /* creates a new data input stream to read data from the
        * specified input stream
        */
@@ -232,31 +234,33 @@ public class Convert{
       y3 = instr.readDouble();
       x4 = instr.readDouble();
       y4 = instr.readDouble();
-      x5 = instr.readDouble();
-      y5 = instr.readDouble();
-      x6 = instr.readDouble();
-      y6 = instr.readDouble();
-      x7 = instr.readDouble();
-      y7 = instr.readDouble();
-      x8 = instr.readDouble();
-      y8 = instr.readDouble();
-      double [] array = new double [15];
-      array[0] = x1;
+      //x5 = instr.readDouble();
+      //y5 = instr.readDouble();
+      //x6 = instr.readDouble();
+      //y6 = instr.readDouble();
+      //x7 = instr.readDouble();
+      //y7 = instr.readDouble();
+      //x8 = instr.readDouble();
+      //y8 = instr.readDouble();
+      //double [] array = new double [15];
+      //double [] array = new double [8];
+      double [] array = {x1, y1, x2, y2, x3, y3, x4, y4};
+      /*array[0] = x1;
       array[1] = y1;
       array[2] = x2;
       array[3] = y2;
       array[4] = x3;
       array[5] = y3;
-      array[5] = x4;
-      array[6] = y4;
-      array[7] = x5;
-      array[8] = y5;
-      array[9] = x6;
-      array[10] = y6;
-      array[11] = x7;
-      array[12] = y7;
-      array[13] = x8;
-      array[14] = y8;
+      array[6] = x4;
+      array[7] = y4;*/
+      //array[7] = x5;
+      //array[8] = y5;
+      //array[9] = x6;
+      //array[10] = y6;
+      //array[11] = x7;
+      //array[12] = y7;
+      //array[13] = x8;
+      //array[14] = y8;
 	  SDOGeometry value = new SDOGeometry (SDOGeometry.SDOGeomType.RECTANGLE, array);
 	  
 	  return value;
@@ -425,8 +429,8 @@ public class Convert{
 	  OutputStream os = new ByteArrayOutputStream ();
 	  DataOutputStream outstr = new DataOutputStream (os);
 	// write the value to the output stream
-	  outstr.writeShort((short)value.shapeType.ordinal());
 	  
+    outstr.writeShort((short)value.shapeType.ordinal());
 	  for (double d: value .coords)
 		  outstr.writeDouble(d);
 	  

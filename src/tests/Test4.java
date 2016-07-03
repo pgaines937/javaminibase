@@ -18,6 +18,7 @@ public class Test4 {
 	public static void main (String args[])
 	{
 		boolean test4_flag = true;
+        System.out.println ("************************************Started Test 4**************************************");
 		Test4Driver test4driver = new Test4Driver();
 		test4_flag = test4driver.distanceTest();
 
@@ -29,6 +30,7 @@ public class Test4 {
 		{
 			System.out.println("Distance Test 4 completed successfully");
 		}
+        System.out.println ("************************************Ended Test 4**************************************");
 	}
 }
 
@@ -72,10 +74,10 @@ class Test4Driver extends TestDriver implements GlobalConst
         //build shapesTable table
         //shapesTable = new Vector();
 
-        double[] vertices1 = new double[] {1.0, 2.0, 3.0, 4.0};
+        double[] vertices1 = new double[] {1.0, 1.0, 3.0, 1.0, 3.0, 3.0, 1.0, 3.0};
         shapesTable.add(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        vertices1 = new double[] {2.5, 3.5, 4.5, 5.5};
+        vertices1 = new double[] {2.0, 2.0, 4.0, 2.0, 4.0, 4.0, 2.0, 4.0};
 
         shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
@@ -108,10 +110,10 @@ class Test4Driver extends TestDriver implements GlobalConst
 
 
         //print query
-        System.out.println("CREATE TABLE ShapesTable");
-        System.out.println("shapesId NUMBER PRIMARY KEY");
-        System.out.println("name VARCHAR2(32)");
-        System.out.println("shape SDO_GEOMETRY)");
+        //System.out.println("CREATE TABLE ShapesTable");
+        //System.out.println("shapesId NUMBER PRIMARY KEY");
+        //System.out.println("name VARCHAR2(32)");
+        //System.out.println("shape SDO_GEOMETRY)");
 
         // creating the ShapesTable relation
         AttrType[] STtypes = new AttrType[3];
@@ -140,8 +142,8 @@ class Test4Driver extends TestDriver implements GlobalConst
         System.out.println("Size:" + size);
 
         // print query
-        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
-        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
+        //System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
+        //System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
 
 
         // selecting the tuple into file "ShapesTable"
@@ -187,7 +189,7 @@ class Test4Driver extends TestDriver implements GlobalConst
 
             try
             {
-                //rid = f.insertRecord(t.returnTupleByteArray());
+                rid = f.insertRecord(t.returnTupleByteArray());
             }
             catch (Exception e)
             {
@@ -214,7 +216,8 @@ class Test4Driver extends TestDriver implements GlobalConst
     						"SELECT SDO_GEOM.SDO_DISTANCE (st1.shape, st2.shape, 0.005)"+
     						"FROM ShapesTable st1, ShapesTable st2"+
     						"WHERE st1.shape='Rectangle1' AND st2.shape='Rectangle2'\n");
-    	
+
+    	System.out.println("*****************************Query to execute*******************************");
     	CondExpr[] outFilter = new CondExpr[3];
         outFilter[0] = new CondExpr();
         outFilter[1] = new CondExpr();
@@ -265,7 +268,7 @@ class Test4Driver extends TestDriver implements GlobalConst
             System.err.println ("*** Error setting up scan for ShapesTable");
             Runtime.getRuntime().exit(1);
         }
-        System.out.println("done");
+        //System.out.println("done");
         SDOGeometry x[] = new SDOGeometry[2];
         
         try 

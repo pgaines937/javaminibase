@@ -20,6 +20,7 @@ public class Test5 {
 	public static void main (String args[])
 	{
 		boolean test5_flag = true;
+        System.out.println ("************************************Started Test 5**************************************");
 		Test5Driver test5driver = new Test5Driver();
 		test5_flag = test5driver.areaTest();
 		
@@ -31,6 +32,7 @@ public class Test5 {
         {
             System.out.println("Area test 5 completed successfully");
         }
+        System.out.println ("************************************Ended Test 5**************************************");
 	}
 
 }
@@ -75,10 +77,10 @@ class Test5Driver extends TestDriver implements GlobalConst
         //build shapesTable table
         //shapesTable = new Vector();
 
-        double[] vertices1 = new double[] {1.0, 2.0, 3.0, 4.0};
+        double[] vertices1 = new double[] {1.0, 1.0, 3.0, 1.0, 3.0, 3.0, 1.0, 3.0};
         shapesTable.add(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        vertices1 = new double[] {2.5, 3.5, 4.5, 5.5};
+        vertices1 = new double[] {2.0, 2.0, 4.0, 2.0, 4.0, 4.0, 2.0, 4.0};
 
         shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
@@ -111,10 +113,10 @@ class Test5Driver extends TestDriver implements GlobalConst
 
 
         //print query
-        System.out.println("CREATE TABLE ShapesTable");
-        System.out.println("shapesId NUMBER PRIMARY KEY");
-        System.out.println("name VARCHAR2(32)");
-        System.out.println("shape SDO_GEOMETRY)");
+        //System.out.println("CREATE TABLE ShapesTable");
+        //System.out.println("shapesId NUMBER PRIMARY KEY");
+        //System.out.println("name VARCHAR2(32)");
+        //System.out.println("shape SDO_GEOMETRY)");
 
         // creating the shapesTable relation
         AttrType[] STtypes = new AttrType[3];
@@ -143,8 +145,8 @@ class Test5Driver extends TestDriver implements GlobalConst
         System.out.println("Size:" + size);
 
         // print query
-        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
-        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
+        //System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
+        //System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
 
 
         // selecting the tuple into file "ShapesTable"
@@ -190,7 +192,7 @@ class Test5Driver extends TestDriver implements GlobalConst
 
             try
             {
-               // rid = f.insertRecord(t.returnTupleByteArray());
+                rid = f.insertRecord(t.returnTupleByteArray());
             }
             catch (Exception e)
             {
@@ -217,7 +219,8 @@ class Test5Driver extends TestDriver implements GlobalConst
     						"SELECT st1.shapeName, SDO_GEOM.SDO_AREA (st1.shape, 0.005)"+
     						"FROM ShapesTable st1"+
     						"WHERE st1.shape='Rectangle1'\n");
-    	
+    	System.out.println("*****************************Query to execute*******************************");
+
     	CondExpr[] outFilter = new CondExpr[2];
         outFilter[0] = new CondExpr();
         outFilter[1] = new CondExpr();
@@ -268,7 +271,7 @@ class Test5Driver extends TestDriver implements GlobalConst
             Runtime.getRuntime().exit(1);
         }
         
-        System.out.println("done");
+        //System.out.println("done");
         
         double area;
         try 
@@ -286,7 +289,7 @@ class Test5Driver extends TestDriver implements GlobalConst
                     System.out.println(output + "])");
                 }
                 area = sdoval.area();
-                System.out.println(t.getStrFld(1) + ", " + area);
+                System.out.println(t.getStrFld(1) + ", " + "Area= "+area);
             }
         }
         catch (Exception e) 

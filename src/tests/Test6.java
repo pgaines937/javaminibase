@@ -23,6 +23,7 @@ public class Test6 {
 	public static void main (String args[])
 	{
 		boolean test6_flag = true;
+		System.out.println ("************************************Started Test 6**************************************");
 		Test6Driver test6driver = new Test6Driver();
 		test6_flag = test6driver.intersectionTest();
 		
@@ -34,6 +35,7 @@ public class Test6 {
 		{
 			System.out.println("Intersection Test 6 completed successfully");
 		}
+		System.out.println ("************************************Ended Test 6**************************************");
 	}
 
 }
@@ -69,7 +71,7 @@ class Test6Driver extends TestDriver implements GlobalConst
 	{
 		Initialize();
 		IntersectionQuery();
-		System.out.println("Finished Area Test5");
+		System.out.println("Finished Intersection Test6");
 		return true;
 	}
 	
@@ -80,10 +82,10 @@ class Test6Driver extends TestDriver implements GlobalConst
 		//build shapesTable table
         //shapesTable = new Vector();
 
-        double[] vertices1 = new double[] {1.0, 2.0, 3.0, 4.0};
+        double[] vertices1 = new double[] {1.0, 1.0, 3.0, 1.0, 3.0, 3.0, 1.0, 3.0};
         shapesTable.add(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        vertices1 = new double[] {2.5, 3.5, 4.5, 5.5};
+        vertices1 = new double[] {2.0, 2.0, 4.0, 2.0, 4.0, 4.0, 2.0, 4.0};
 
         shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
         
@@ -115,10 +117,10 @@ class Test6Driver extends TestDriver implements GlobalConst
 	        SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
 
 		//print query
-		System.out.println("CREATE TABLE ShapesTable");
-		System.out.println("shapesId NUMBER PRIMARY KEY");
-		System.out.println("name VARCHAR2(32)");
-		System.out.println("shape SDO_GEOMETRY)");
+		//System.out.println("CREATE TABLE ShapesTable");
+		//System.out.println("shapesId NUMBER PRIMARY KEY");
+		//System.out.println("name VARCHAR2(32)");
+		//System.out.println("shape SDO_GEOMETRY)");
 
 		// creating the shapesTable relation
 	        AttrType[] STtypes = new AttrType[3];
@@ -146,8 +148,8 @@ class Test6Driver extends TestDriver implements GlobalConst
 	        System.out.println("Size:" + size);
 
 		// print query
-		System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
-		System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
+		//System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+		//System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
 
 		// selecting the tuple into file "ShapesTable"
 	        RID rid;
@@ -192,7 +194,7 @@ class Test6Driver extends TestDriver implements GlobalConst
 	            
 	            try 
 	            {
-	                //rid = f.insertRecord(t.returnTupleByteArray());
+	                rid = f.insertRecord(t.returnTupleByteArray());
 	            }
 	            catch (Exception e) 
 	            {
@@ -221,10 +223,12 @@ class Test6Driver extends TestDriver implements GlobalConst
     						"SELECT SDO_GEOM.SDO_INTERSECTION (st1.shape, st2.shape 0.005)"+
     						"FROM ShapesTable st1, ShapesTable st2"+
     						"WHERE st1.shapeName = 'Rectangle1' AND st2.shapeName = 'Rectangle2'\n");
-    	
-    	CondExpr[] outFilter = new CondExpr[2];
+    	System.out.println("*****************************Query to execute*******************************");
+
+    	CondExpr[] outFilter = new CondExpr[3];
         outFilter[0] = new CondExpr();
         outFilter[1] = new CondExpr();
+        outFilter[2] = new CondExpr();
 
         IntersectionQuery_CondExpr(outFilter);
 
@@ -272,7 +276,7 @@ class Test6Driver extends TestDriver implements GlobalConst
             Runtime.getRuntime().exit(1);
         }
         
-        System.out.println("done");
+        //System.out.println("done");
         
         SDOGeometry xy[] = new SDOGeometry[2];
         int i=0;

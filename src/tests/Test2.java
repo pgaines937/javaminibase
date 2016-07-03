@@ -36,15 +36,18 @@ public class Test2 {
 	{
 		boolean test2_flag = true;
 		
+        System.out.println ("************************************Started Test 2**************************************");
 		Test2Driver test2driver = new Test2Driver ();
-		
 		test2_flag = test2driver.insertTest();
-        if (test2_flag != true) {
+        if (test2_flag != true) 
+        {
             System.out.println("Error occurred during Test2");
         }
-        else {
+        else 
+        {
             System.out.println("Test2 completed successfully");
         }
+        System.out.println ("************************************Ended Test 2****************************************");
 	}
 }
 
@@ -81,13 +84,13 @@ class Test2Driver extends TestDriver implements GlobalConst
 		
 		//insert two table entries for shapes table
         
-        double[] vertices1 = new double[] {1.0, 2.0, 3.0, 4.0};
+        double[] vertices1 = new double[] {1.0, 1.0, 3.0, 1.0, 3.0, 3.0, 1.0, 3.0};
 
         shapesTable.add(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        double[] vertices2 = new double[] {2.5, 3.5, 4.5, 5.5};
+        vertices1 = new double[] {2.0, 2.0, 4.0, 2.0, 4.0, 4.0, 2.0, 4.0};
 
-        shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices2)));
+        shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
         
         //finished inserting two entries for shapes table
 		
@@ -113,10 +116,10 @@ class Test2Driver extends TestDriver implements GlobalConst
 
 
         //print query
-        System.out.println("CREATE TABLE ShapesTable");
-        System.out.println("shapesId NUMBER PRIMARY KEY");
-        System.out.println("name VARCHAR2(32)");
-        System.out.println("shape SDO_GEOMETRY)");
+        //System.out.println("CREATE TABLE ShapesTable");
+        //System.out.println("shapesId NUMBER PRIMARY KEY");
+        //System.out.println("name VARCHAR2(32)");
+        //System.out.println("shape SDO_GEOMETRY)");
 
         //create the ShapesTables
         AttrType[] STtypes = new AttrType[3];
@@ -143,8 +146,8 @@ class Test2Driver extends TestDriver implements GlobalConst
         int size = t.size();
 
         // print query
-        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
-        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
+        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
 
 
         // inserting the tuple into file "ShapesTable"

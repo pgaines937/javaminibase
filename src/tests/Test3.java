@@ -23,16 +23,18 @@ public class Test3 {
 	public static void main (String args[])
 	{
 		boolean test3_flag = true;
-		
+		System.out.println ("************************************Started Test 3**************************************");
 		Test3Driver test3driver = new Test3Driver ();
-		
 		test3_flag = test3driver.indexTest();
-        if (test3_flag != true) {
+        if (test3_flag != true) 
+        {
             System.out.println("Error occurred during Test3");
         }
-        else {
+        else 
+        {
             System.out.println("Test3- Index Test completed successfully");
         }
+        System.out.println ("************************************Ended Test 3****************************************");
 	}
 }
 
@@ -65,8 +67,7 @@ class Test3Driver extends TestDriver implements GlobalConst
 	
 	public boolean indexTest()
 	{
-		System.out.println("Started Index Test");
-		
+		System.out.println("Started Test 3- Index Test");
 		boolean status = OK;
 		AttrType[] attrType = new AttrType[3];
 	    attrType[0] = new AttrType(AttrType.attrInteger);
@@ -81,18 +82,18 @@ class Test3Driver extends TestDriver implements GlobalConst
 		
 		//insert two table entries for shapes table
 
-        double[] vertices1 = new double[] {1.0, 2.0, 3.0, 4.0};
+        double[] vertices1 = new double[] {1.0, 1.0, 3.0, 1.0, 3.0, 3.0, 1.0, 3.0};
 
         shapesTable.add(new ShapesTable(1, "Rectangle1", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
 
-        double[] vertices2 = new double[] {2.5, 3.5, 4.5, 5.5};
+        vertices1 = new double[] {2.0, 2.0, 4.0, 2.0, 4.0, 4.0, 2.0, 4.0};
 
-        shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices2)));
+        shapesTable.add(new ShapesTable(2, "Rectangle2", new SDOGeometry(SDOGeometry.SDOGeomType.RECTANGLE, vertices1)));
         
         //finished inserting two entries for shapes table
 		
-		String dbpath = "/tmp/" + System.getProperty("user.name") + ".minibase.test2db";
-        String logpath = "/tmp/" + System.getProperty("user.name") + ".test2log";
+		String dbpath = "/tmp/" + System.getProperty("user.name") + ".minibase.test3db";
+        String logpath = "/tmp/" + System.getProperty("user.name") + ".test3log";
         
         String remove_cmd = "/bin/rm -rf ";
         String remove_logcmd = remove_cmd + logpath;
@@ -113,10 +114,10 @@ class Test3Driver extends TestDriver implements GlobalConst
 
 
         //print query
-        System.out.println("CREATE TABLE ShapesTable");
-        System.out.println("shapesId NUMBER PRIMARY KEY");
-        System.out.println("name VARCHAR2(32)");
-        System.out.println("shape SDO_GEOMETRY)");
+        //System.out.println("CREATE TABLE ShapesTable");
+        //System.out.println("shapesId NUMBER PRIMARY KEY");
+        //System.out.println("name VARCHAR2(32)");
+        //System.out.println("shape SDO_GEOMETRY)");
 
         //create the ShapesTables
         AttrType[] STtypes = new AttrType[3];
@@ -141,8 +142,8 @@ class Test3Driver extends TestDriver implements GlobalConst
         
         int size = t.size();
 
-        System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
-        System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
+        //System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 2.0, 2.0]");
+        //System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 2.5, 3.5, 3.5, 2.5, 3.5, 3.5]");
 
 
         // inserting the tuple into file "ShapesTable"
