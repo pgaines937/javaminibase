@@ -1,9 +1,9 @@
 JDKPATH = ~/.jabba/jdk/1.8.77
 LIBPATH = .:..
 CLASSPATH = $(LIBPATH)
-BINPATH = $(JDKPATH)/Contents/Home/bin
-JAVAC = $(JDKPATH)/Contents/Home/bin/javac -classpath $(CLASSPATH)
-JAVA  = $(JDKPATH)/Contents/Home/bin/java  -classpath $(CLASSPATH)
+BINPATH = $(JDKPATH)/bin
+JAVAC = $(JDKPATH)/bin/javac -classpath $(CLASSPATH)
+JAVA  = $(JDKPATH)/bin/java  -classpath $(CLASSPATH)
 
 PROGS = together
 
