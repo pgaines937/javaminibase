@@ -212,20 +212,20 @@ class Test5Driver extends TestDriver implements GlobalConst
     
     public void AreaQuery ()
     {
-    	System.out.println("*****************************Query to execute*******************************");
+    	System.out.println("---------------------------------Query to execute---------------------------------");
     	boolean status = OK;
     	
     	System.out.println("Query: Find the area of Rectangle1"+
     						"SELECT st1.shapeName, SDO_GEOM.SDO_AREA (st1.shape, 0.005)"+
     						"FROM ShapesTable st1"+
     						"WHERE st1.shape='Rectangle1'\n");
-    	System.out.println("*****************************Query to execute*******************************");
+    	System.out.println("---------------------------------Query to execute---------------------------------");
 
     	CondExpr[] outFilter = new CondExpr[2];
         outFilter[0] = new CondExpr();
         outFilter[1] = new CondExpr();
 
-        AreaQuery_CondExpr(outFilter);
+        //AreaQuery_CondExpr(outFilter);
 
         Tuple t = new Tuple();
         t = null;
@@ -253,9 +253,8 @@ class Test5Driver extends TestDriver implements GlobalConst
         FileScan am = null;
         try 
         {
-            am  = new FileScan("ShapesTable.in", STtypes, STsizes,
-                    (short)3, (short)2,
-                    STprojection, outFilter);
+            //am  = new FileScan("ShapesTable.in", STtypes, STsizes, (short)3, (short)2, STprojection, outFilter);
+            am  = new FileScan("ShapesTable.in", STtypes, STsizes, (short)3, (short)2, STprojection, null);
         }
         catch (Exception e) 
         {
@@ -288,6 +287,7 @@ class Test5Driver extends TestDriver implements GlobalConst
                         output += d + ",";
                     System.out.println(output + "])");
                 }
+                System.out.println ("sdoval="+sdoval);
                 area = sdoval.area();
                 System.out.println(t.getStrFld(1) + ", " + "Area= "+area);
             }
@@ -300,7 +300,7 @@ class Test5Driver extends TestDriver implements GlobalConst
         }        
     }
     
-    public void AreaQuery_CondExpr (CondExpr[] expr)
+    /*public void AreaQuery_CondExpr (CondExpr[] expr)
     {
     	expr[0].next  = null;
         expr[0].op    = new AttrOperator(AttrOperator.aopEQ);
@@ -310,5 +310,5 @@ class Test5Driver extends TestDriver implements GlobalConst
         expr[0].operand2.string = "Rectangle1";
 
         expr[1] = null;
-    }
+    }*/
 }

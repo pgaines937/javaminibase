@@ -89,11 +89,12 @@ class Test1Driver extends TestDriver implements GlobalConst
         SystemDefs sysdef = new SystemDefs(dbpath, 1000, NUMBUF, "Clock");
 
         //print query
+        System.out.println ("---------------------------------Query Executed---------------------------------");
         System.out.println("CREATE TABLE ShapesTable");
         System.out.println("shapesId NUMBER PRIMARY KEY");
         System.out.println("name VARCHAR2(32)");
         System.out.println("shape SDO_GEOMETRY)");
-
+		System.out.println ("---------------------------------Query Executed---------------------------------");
 
         //create the ShapesTables
         AttrType[] STtypes = new AttrType[3];

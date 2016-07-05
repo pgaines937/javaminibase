@@ -146,9 +146,10 @@ class Test2Driver extends TestDriver implements GlobalConst
         int size = t.size();
 
         // print query
+        System.out.println ("---------------------------------Query Executed---------------------------------");
         System.out.println("INSERT INTO ShapesTable VALUES(1, Rectangle1,SDO_GEOMETRY(RECTANGLE, vertices1[1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0]");
         System.out.println("INSERT INTO ShapesTable VALUES(2, Rectangle2,SDO_GEOMETRY(RECTANGLE, vertices1[2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5]");
-
+        System.out.println ("---------------------------------Query Executed---------------------------------");
 
         // inserting the tuple into file "ShapesTable"
         RID             rid;

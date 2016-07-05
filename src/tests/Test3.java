@@ -221,9 +221,11 @@ class Test3Driver extends TestDriver implements GlobalConst
         }
 
         //print index query
+        System.out.println ("---------------------------------Query Executed---------------------------------");
         System.out.println("CREATE INDEX ShapesSpatialIdx ");
         System.out.println("ON Shapes Table('Shape')");
         System.out.println("INDEXTYPE IS SPATIAL INDEX");
+        System.out.println ("---------------------------------Query Executed---------------------------------");
 
         // create the index file using Binary Tree
         BTreeFile btf = null;

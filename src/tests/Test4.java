@@ -209,21 +209,21 @@ class Test4Driver extends TestDriver implements GlobalConst
     
     public void DistanceQuery ()
     {
-    	System.out.println("*****************************Query to execute*******************************");
+    	System.out.println("---------------------------------Query to execute---------------------------------");
     	boolean status = OK;
     	
     	System.out.println("Query: Find the distance of Rectangle1 and Rectangle2"+
     						"SELECT SDO_GEOM.SDO_DISTANCE (st1.shape, st2.shape, 0.005)"+
     						"FROM ShapesTable st1, ShapesTable st2"+
-    						"WHERE st1.shape='Rectangle1' AND st2.shape='Rectangle2'\n");
+    						"WHERE st1.shapeName='Rectangle1' AND st2.shapeName='Rectangle2'\n");
 
-    	System.out.println("*****************************Query to execute*******************************");
+    	System.out.println("---------------------------------Query to execute---------------------------------");
     	CondExpr[] outFilter = new CondExpr[3];
         outFilter[0] = new CondExpr();
         outFilter[1] = new CondExpr();
         outFilter[2] = new CondExpr();
         
-        DistanceQuery_CondExpr(outFilter);
+        //DistanceQuery_CondExpr(outFilter);
 
         Tuple t = new Tuple();
         t = null;
@@ -294,7 +294,7 @@ class Test4Driver extends TestDriver implements GlobalConst
         }
     }
         
-    public void DistanceQuery_CondExpr (CondExpr[]expr)
+    /*public void DistanceQuery_CondExpr (CondExpr[]expr)
     {
     	expr[0].next  = null;
         expr[0].op    = new AttrOperator(AttrOperator.aopEQ);
@@ -312,5 +312,5 @@ class Test4Driver extends TestDriver implements GlobalConst
         
         expr[2] = null;
     	
-    }   
+    }*/   
 }
