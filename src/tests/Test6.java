@@ -290,9 +290,9 @@ class Test6Driver extends TestDriver implements GlobalConst
 
         	if (points != null)
             {
-                System.out.print("SDO_GEOMETRY(shapeType- " + sdoval[0].shapeType.ordinal() + " intersects " + sdoval[1].shapeType.ordinal() + ", SDO_ORDINATE_ARRAY[");
+                System.out.print("SDO_GEOMETRY(shapeType- RECTANGLE intersects RECTANGLE, SDO_ORDINATE_ARRAY[");
                 for (Coordinate point : points){
-                    System.out.print(point.x + ", " + point.y + ",");
+                    System.out.print(point.x + "," + point.y + ",");
                 }
                 System.out.println("])");
             }
