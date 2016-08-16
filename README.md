@@ -5,3 +5,5 @@ Implemented the following functionality:
 -	SELECT c.name, SDO_GEOM.SDO_AREA
 -	SELECT SDO_GEOM.SDO_INTERSECTION
 -	SELECT SDO_GEOM.SDO_DISTANCE
+
+See: https://w3.cs.jmu.edu/mayfiecs/minibase.html
